@@ -1,4 +1,4 @@
-# Limbs
+# Limbs 👊💥💫
 
 Limbs is a tiny object system for JavaScript.
 
@@ -135,5 +135,7 @@ that you've passed to `New`, `Private`, or `Public`, that object will _replace_
 `core`, `core.private`, and `core.public` entirely. This is to enable
 immutable-style operations, such as using ES6 Object.assign/object spread
 syntax, or to patch in ImmutableJS.
+
+## Custom traits
 
 ## Philosophy
