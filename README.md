@@ -11,7 +11,7 @@ ES6 (ES2015+) classes still do not provide, such as trait-based multiple
 inheritance (a.k.a. mixins), true private members, and methods that do not lose
 their binding when separated from their object.
 
-# Installation
+## Installation
 
 Limbs is currently available on NPM, and can be installed with:
 
@@ -22,17 +22,19 @@ npm i limbs
 If you are using Limbs in a non-NPM environment, please feel free to port it
 and submit a pull request :-)
 
-# Basic usage
+## Basic usage
 
-The default export of the `limbs` module is its entry point, called the _factory_.
+The default export of the `limbs` module is its entry point, called `New`.
+(Capitalized, so as not to clash with JavaScript's built-in `new`.)
 It is a is a very simple function. Each call to it creates a plain object of the
-form `{ traits: [], private: {}, public: {} }`, called the `core`, and returns
-its `public` member:
+form `{ traits: [], private: {}, public: {} }`, called the `core`; applies any
+passed _traits_ to it, and returns its `public` member:
 
 ```
 var New = require('limbs')
-var myObject = New()
-// {}
+var myObject = New() // {}
+var myObject = New(function iAmATrait (core) {
+  core.public = core.traits }) // ['iAmATrait']
 ```
 
 To pre-populate the returned object with useful functionality, you pass _traits_
@@ -56,7 +58,8 @@ Other than that distinction, they work in the same way:
 ```
 myObject = New(
   Private({ X: 1 }),
-  Public({ Y: 2 }))
+  Public({ Y: 2 })
+)
 // { Y: 2 }
 ```
 
@@ -69,6 +72,7 @@ prior to that point already applied), so you can e.g. define getters and setters
 myObject = New(
   Private({ X: 1 }),
   Public(function (core) {
+    core.public.Y = 'plain value'
     Object.defineProperty(core.public, 'X', {
       enumerable: true,
       get: function () { return core.private.X }
@@ -76,7 +80,7 @@ myObject = New(
         var t = typeof v
         if (t !== 'number') throw new TypeError('X can only be a number, received: ' + t)
         core.private.X = v } }) })
-myObject           // { X: [Getter/Setter] }
+myObject           // { X: [Getter/Setter], Y: 'plain value' }
 myObject.X         // 1
 myObject.X = 2     // 2
 myObject.X         // 2
@@ -89,27 +93,47 @@ In the above example:
 * `core.private.X` is a separate variable, which is only accessible from the
   function that is passed to `Public`, but not from the outside.
 
-Of course, this means you can also modify `core.public` from a function passed
-to `Private`, and vice versa. It is your responsibility to only do this in ways
-that make sense.
+_Of course, passing the entire `core` means you can also modify `core.public`
+from a function passed to `Private`, and vice versa. It is your responsibility
+to only do this where it makes sense._
 
-You can pass any number of arguments to `Private` and `Public`, and prefix them
-with Boolean conditionals to quickly to quickly enable or disable them:
+Let's try rewriting that example with a little more composability:
+
 ```
-makeObject = function (exposePrivates) {
-  return New(
-    Private({ X: 1 }, exposePrivates && { privatesExposed: true }),
-    Public(!)
-}
+function typeGuarded (propertyName, expectedType) {
+  var errorMessage = propertyName + ' can only be a ' + expectedType + ', received: '
+  return function (core) {
+    Object.defineProperty(core.public, propertyName, {
+      enumerable: true,
+      get: function () { return core.private[propertyName] }
+      set: function (newValue) {
+        var typeOfNewValue = typeof newValue
+        if (typeOfNewValue !== expectedType) throw new TypeError(errorMessage + typeOfNewValue)
+        core.private[propertyName] = newValue } }) } }
 myObject = New(
-  Private(),
+  Private({
+    X: 1,
+    Y: 'foo'}),
   Public(
-    { X: 1 },
-    false && { Y: 2, Z: 3 },
-    { A: 4 }))
-// { X: 1, A: 4 }
+    typeGuarded('X', 'number'),
+    typeGuarded('Y', 'string')))
 ```
 
-# Custom traits
+Hey presto! We've factored out the validation into a separate function. Thanks
+to closures, the names and expected types of private properrties (defined at
+one time) and their actual values and memory locations (defined at another time)
+end up in the same scope, letting you implement your logic in small, manageable
+chunks. We've also _memoized_ part of the error message.
 
-# Philosophy
+As you saw above, you can pass as many arguments as you like to `Private` and
+`Public`. If you prefix any argument passed to `Private`, `Public` or `New` with
+a Boolean conditional that evaluates to `false`, it will simply be ignored.
+This gives you convenient way to quickly enable or disable layers of functionality.
+
+The last thing you need to know is that if you return an object from a function
+that you've passed to `New`, `Private`, or `Public`, that object will _replace_
+`core`, `core.private`, and `core.public` entirely. This is to enable
+immutable-style operations, such as using ES6 Object.assign/object spread
+syntax, or to patch in ImmutableJS.
+
+## Philosophy

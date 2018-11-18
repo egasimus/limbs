@@ -19,27 +19,25 @@ test('factory + Public/Private trait', function (t) {
       ({ B: 2 }),
     Public
       ( function (core) { core.public.C = 3 }
-      , function (core) { return { D: 4 } }
-      , function (core) { core.public.E = 4; return { E: 5 } }),
+      , function (core) { core.private.D = 4 }
+      , function (core) { return { AplusC: core.public.A + core.public.C, E: 5 } }),
     Private
-      ( function (core) { return { F: 5 } }
+      ( function (core) { core.public.F = 5 }
       , function (core) { core.private.F = 7 }
-      , function (core) { core.public.F = core.private.B * core.public.C; return { G: 7 } }),
+      , function (core) { return { FmulB: core.private.F * core.private.B, G: 7 } }),
     Public
       ( function (core) {
           Object.defineProperty(core.public, 'G', { enumerable: true, get:
-            function () { return String(core.private.G) } }) }) )
+            function () { return String(core.private.G + core.private.FmulB) } }) }) )
 
   obj.G = 'this change will be ignored'
   obj.H = 'not this'
 
   t.deepEqual(obj, {
-    A: 1,
-    C: 3,
-    D: 4,
+    AplusC: 4,
     E: 5,
-    F: 6,
-    G: '7',
+    F: 5,
+    G: '21',
     H: 'not this'
   })
 

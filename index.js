@@ -1,14 +1,14 @@
-module.exports = exports = factory
-module.exports.default = factory
+module.exports = exports = New
+module.exports.default = New
 
-function factory () {
+function New () {
   return Array.prototype.reduce.call(arguments,
     installTrait, { traits: [], private: {}, public: {} }).public }
 
 function installTrait (core, trait) {
   if (!trait) return core
   (core.traits.indexOf(trait.name) < 0) && core.traits.push(trait.name)
-  return trait(core) }
+  return trait(core) || core }
 
 module.exports.Private = function PrivateTrait () {
   var limbs = Array.prototype.slice.call(arguments)
@@ -21,7 +21,7 @@ module.exports.Public = function PublicTrait () {
 function attachLimb (type) {
   return function (core, limb) {
     if (typeof limb === 'function') limb = limb(core)
-    if (limb) shallowCopy(core[type], limb)
+    if (limb && limb instanceof Object) core[type] = limb
     return core } }
 
 function shallowCopy (target, source) {
