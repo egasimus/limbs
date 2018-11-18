@@ -8,5 +8,7 @@
   "bugs": { "url": "https://github.com/egasimus/limbs/issues" },
   "license": "ISC",
   "author": "Adam Avramov <adam.b.avramov@gmail.com>",
-  "repository": "github:egasimus/limbs"
+  "repository": "github:egasimus/limbs",
+  "devDependencies": { "tape": "^4.9.1" },
+  "scripts": { "test": "node test.js" }
 }

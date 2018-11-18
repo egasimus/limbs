@@ -1,30 +1,28 @@
-module.exports = exports =
-  { factory: factory
-  , Private: PrivateTrait
-  , Public:  PublicTrait }
+module.exports = exports = factory
+module.exports.default = factory
 
 function factory () {
   return Array.prototype.reduce.call(arguments,
-    installTrait, { traits: [], private: {}, public: {} }) }
+    installTrait, { traits: [], private: {}, public: {} }).public }
 
 function installTrait (core, trait) {
   if (!trait) return core
   (core.traits.indexOf(trait.name) < 0) && core.traits.push(trait.name)
   return trait(core) }
 
-function PrivateTrait () {
+module.exports.Private = function PrivateTrait () {
   var limbs = Array.prototype.slice.call(arguments)
-  return function Private (core) {
-    limbs.forEach(function (limb) { copyTrait(core, core.private, limb) }) } }
+  return function Private (core) { return limbs.reduce(attachLimb('private'), core) } }
 
-function PublicTrait () {
+module.exports.Public = function PublicTrait () {
   var limbs = Array.prototype.slice.call(arguments)
-  return function Public (core) {
-    limbs.forEach(function (limb) { copyTrait(core, core.public, limb) }) } }
+  return function Private (core) { return limbs.reduce(attachLimb('public'), core) } }
 
-function copyTrait (core, target, limb) {
-  limb && shallowCopy(core.public,
-    typeof limb === 'function' ? limb(core) : limb) }
+function attachLimb (type) {
+  return function (core, limb) {
+    if (typeof limb === 'function') limb = limb(core)
+    if (limb) shallowCopy(core[type], limb)
+    return core } }
 
 function shallowCopy (target, source) {
   Object.keys(source).forEach(function (key) {
