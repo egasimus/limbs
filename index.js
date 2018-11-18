@@ -7,8 +7,9 @@ function New () {
 
 function installTrait (core, trait) {
   if (!trait) return core
-  (core.traits.indexOf(trait.name) < 0) && core.traits.push(trait.name)
-  return trait(core) || core }
+  if (core.traits.indexOf(trait.name) < 0) core.traits.push(trait.name)
+  var updated = trait(core)
+  return (updated && typeof updated === 'object') ? updated : core }
 
 module.exports.Private = function PrivateTrait () {
   var limbs = Array.prototype.slice.call(arguments)
