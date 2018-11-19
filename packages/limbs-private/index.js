@@ -1,4 +1,4 @@
-var attachLimb = require('limbs-core').attachLimb
+var attachLimb = require('limbs-core/helpers').attachLimb
 
 module.exports = function PrivateTrait () {
   var limbs = Array.prototype.slice.call(arguments)

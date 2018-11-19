@@ -1,8 +1,8 @@
-module.exports = function PublicTrait () {
+module.exports = exports = { Public: PublicTrait, attachLimb: attachLimb }
+
+function PublicTrait () {
   var limbs = Array.prototype.slice.call(arguments)
   return function Public (core) { return limbs.reduce(attachLimb('public'), core) } }
-
-module.exports.attachLimb = attachLimb
 
 function attachLimb (type) {
   return function (core, limb) {

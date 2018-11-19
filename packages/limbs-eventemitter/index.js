@@ -1,6 +1,7 @@
 module.exports = function EventsTrait () {
   var configs = Array.prototype.slice.call(arguments)
   return function Events (core) {
+    if (!core.hasTrait('Private')) require('limbs-private')()(core)
     core.private.events = new (require('rxjs').Subject)()
     Object.defineProperty(core.public, 'events',
       { enumerable: true, get: function () { return core.private.events } })
