@@ -1,0 +1,28 @@
+{
+  "name": "limbs-core",
+  "version": "0.1.0",
+  "author": "Adam Avramov <adam.b.avramov@gmail.com>",
+  "description": "Closure-powered trait-based OOP system for ES5+",
+  "homepage": "https://github.com/egasimus/limbs",
+  "keywords": [
+    "ES5",
+    "ES6",
+    "closure",
+    "traits",
+    "factory",
+    "class",
+    "metaprogramming"
+  ],
+  "bugs": {
+    "url": "https://github.com/egasimus/limbs/issues"
+  },
+  "license": "ISC",
+  "repository": "github:egasimus/limbs",
+  "devDependencies": {
+    "lerna": "^3.4.3",
+    "tape": "^4.9.1"
+  },
+  "scripts": {
+    "test": "node test.js"
+  }
+}
