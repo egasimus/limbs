@@ -1,12 +1,12 @@
 # Limbs 👊💥💫
 
-Limbs is a tiny object system for JavaScript.
+Limbs is a tiny metaprogramming framework for JavaScript.
 
 Limbs is written in ECMAScript 5.1, so it can be used in any environment,
 including older browsers and embedded platforms, without requiring extra build
 steps.
 
-Lims uses the magic of lexical scoping (closures) to implement features that
+Limbs uses the magic of lexical scoping (closures) to implement features that
 ES6 (ES2015+) classes still do not provide, such as trait-based multiple
 inheritance (a.k.a. mixins), true private members, and methods that do not lose
 their binding when separated from their object.
@@ -43,7 +43,7 @@ trait and the `Public` trait.
 
 ```
 var Private = New.Private
-  , Public = New.Public
+  , Public  = New.Public
 ```
 
 Or, in ES6, simply:
@@ -100,9 +100,9 @@ to only do this where it makes sense._
 Let's try rewriting that example with a little more composability:
 
 ```
-function typeGuarded (propertyName, expectedType) {
+function typeGuard (propertyName, expectedType) {
   var errorMessage = propertyName + ' can only be a ' + expectedType + ', received: '
-  return function (core) {
+  return function installTypeGuard (core) {
     Object.defineProperty(core.public, propertyName, {
       enumerable: true,
       get: function () { return core.private[propertyName] }
@@ -115,8 +115,8 @@ myObject = New(
     X: 1,
     Y: 'foo'}),
   Public(
-    typeGuarded('X', 'number'),
-    typeGuarded('Y', 'string')))
+    typeGuard('X', 'number'),
+    typeGuard('Y', 'string')))
 ```
 
 Hey presto! We've factored out the validation into a separate function. Thanks
@@ -137,5 +137,42 @@ immutable-style operations, such as using ES6 Object.assign/object spread
 syntax, or to patch in ImmutableJS.
 
 ## Custom traits
+
+One of the main focuses of Limbs is _brevity_. Let's continue with the above
+examples and implement a single `Typed` trait that gets rid of the
+`Private(/*names + default values*/)` and `Public(/*names + types*/)`:
+repetition and can be used as follows:
+
+```
+myObject = New(
+  Typed('X', 'number', 1),
+  Typed('Y', 'string', 'foo'))
+```
+
+```
+var Typed = function (propertyName, expectedType, initialValue) {
+  var errorMessage = propertyName + ' can only be a ' + expectedType + ', received: '
+  return function Typed (core) {
+    var initial = {}
+    initial[propertyName] = initialValue
+    Private(initial)(core)
+    Public(installTypeGuard(propertyName, expectedType))(core) }
+  function installTypeGuard (core) {
+    /* same as installTypeGuard above */ } }
+```
+
+Or, in ES6:
+
+```
+const Typed = (propertyName, expectedType, initialValue) => {
+  const errorMessage = `${propertyNAme} can only be a ${expectedType}, received:`
+  return function Typed (core) {
+    Private({ [propertyName]: initialValue })(core)
+    Public(installTypeGuard(propertyName, expectedType))(core) }
+  function installTypeGuard (core) { /* ... */ } }
+```
+
+You can use this approach to e.g. integrate your custom model/form validation
+with JavaScript's normal property assignment operator.
 
 ## Philosophy
