@@ -2,7 +2,7 @@
 
 Limbs is a tiny metaprogramming framework for JavaScript.
 
-Limbs is written in ECMAScript 5.1, so it can be used in any environment,
+Limbs is written in ECMAScript 5.1, and can be used in any environment,
 including older browsers and embedded platforms, without requiring extra build
 steps.
 

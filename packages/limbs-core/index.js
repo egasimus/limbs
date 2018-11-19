@@ -2,8 +2,10 @@ module.exports = exports = New
 module.exports.default = New
 
 function New () {
-  return Array.prototype.reduce.call(arguments,
-    installTrait, { traits: [], private: {}, public: {} }).public }
+  return Array.prototype.reduce.call(arguments, installTrait, {
+    traits: [],
+    hasTrait: function hasTrait (trait) { return this.traits.indexOf(trait) > -1 },
+    public: {} }).public }
 
 function installTrait (core, trait) {
   if (!trait) return core
@@ -11,15 +13,11 @@ function installTrait (core, trait) {
   var updated = trait(core)
   return (updated && typeof updated === 'object') ? updated : core }
 
-module.exports.Private = function PrivateTrait () {
-  var limbs = Array.prototype.slice.call(arguments)
-  return function Private (core) { return limbs.reduce(attachLimb('private'), core) } }
-
 module.exports.Public = function PublicTrait () {
   var limbs = Array.prototype.slice.call(arguments)
   return function Public (core) { return limbs.reduce(attachLimb('public'), core) } }
 
-function attachLimb (type) {
+module.exports.attachLimb = function attachLimb (type) {
   return function (core, limb) {
     if (typeof limb === 'function') limb = limb(core)
     if (limb && limb instanceof Object) core[type] = limb
