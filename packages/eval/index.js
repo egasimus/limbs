@@ -1,10 +1,10 @@
 module.exports = function RunTrait (...tasks) {
 
-  return function Run (actor) {
+  return function Run (add) {
 
     // TODO: mix tasks and options
     //
-    const { emit } = actor.public
+    const { emit } = this.public
 
     setImmediate(()=>
       runInParallel(tasks, {}).then(results=>

@@ -1,22 +1,13 @@
 module.exports = function LocalFileSystemTrait (...configs) {
 
-  return function LocalFileSystem (core) {
+  return function LocalFileSystem (add) {
 
-    const { events, emit } = core.public
-
-    const { filter, map, flatMap } = require('rxjs/operators')
-    const { stat, readFile } = require('fs')
-    const { resolve, relative } = require('path')
-    const {
-      commands: { CheckFile, LoadFile },
-      events:   { FileLoaded, FileChecked, FileError }
-    } = require('../../File')
-    const { feedback } = require('../../helpers')
-    const globule = require('globule')
-    const { Gaze } = require('gaze')
-
-    const { Map, Set } = require('immutable')
-    const { from } = require('rxjs')
+    var events    = this.events
+      , emit      = this.public.emit
+      , filter    = require('rxjs/operators').filter
+      , relative  = require('path').relative
+      , constants = require('./constants')
+      , Set       = require('immutable').Set
 
     // merge configuration objects
     const config = Object.assign({
@@ -27,48 +18,37 @@ module.exports = function LocalFileSystemTrait (...configs) {
       glob:     [ '**/*', '!node_modules/**' ],
     }, ...configs.map(cfg=>cfg||{}))
 
-    const { glob, cwd } = config
+    if (config.load) { // evented interface to filesystem; TODO req/res id ala plan9
+      var handlers = {}
+      handlers[constants.commands.CheckFile] = function (uri) { // file metadata
+        require('./check')(cwd, uri).then(events.next) }
+      handlers[constants.commands.LoadFile] = function (uri) { // file metadata
+        require('./load')(cwd, uri).then(events.next) }
+      add(require('limbs-eventemitter')(handlers)) }
 
-    // main loader
-    if (config.load) {
-
-      // respond to metadata requests
-      feedback(events,
-        filter(([ event ])=>event===CheckFile),
-        flatMap(([_, uri])=>require('./check')(cwd, uri)))
-
-      // respond to data requests
-      feedback(events,
-        filter(([ event ])=>event===LoadFile),
-        flatMap(([_, uri])=>require('./load')(cwd, uri))) }
-
-    // initial snapshot
+    // initial snapshot (recursive ls, aka: glob + stat)
     if (config.snapshot) {
-
-    // glob an initial snapshot of the directory contents
-      const globbed = Set(globule.find(glob, { cwd }))
-
+      // glob an initial snapshot of the directory contents
+      const globbed = Set(require('globule').find(config.glob, { cwd: config.cwd }))
       // start on the next tick,
-      // this allows the rest of the directives to synchronously initialize first
+      // this allows any remaining traits to synchronously initialize first
       setImmediate(()=>{
-
         // when all globbed items have been checked, emit and unsubscribe
         let checked = Set()
         const snapshot = events
-          .pipe(filter(([event])=>event===FileChecked||event===FileError))
+          .pipe(filter(([event])=>event===constants.events.FileChecked||event===constants.events.FileError))
           .subscribe(([_, uri])=>{
             checked = checked.add(uri)
             if (checked.equals(globbed)) {
               emit('SnapshotTaken', checked)
               snapshot.unsubscribe()
             } })
-
         // start checking items from the snapshot
         globbed.forEach(pathname=>emit(CheckFile, pathname)) }) }
 
     // watch for updates
     if (config.watch) {
-      const gaze = new Gaze(glob, { cwd, interval: 10, debounceDelay: 50 })
+      const gaze = new (require('gaze').Gaze)(config.glob, { cwd: config.cwd, interval: 10, debounceDelay: 50 })
       // gaze.on('all', (event, path)=>{})
       gaze.on('changed', path=>{
         const uri = relative(cwd, path)
