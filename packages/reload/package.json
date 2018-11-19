@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "limbs-file": "^0.1.0",
     "clear-module": "^3.0.0"
   }
 }
