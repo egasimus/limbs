@@ -1,41 +1,37 @@
+# limbs-private
+
+## Installation
 
 ```
-var New = require('limbs')
-var myObject = New() // {}
-var myObject = New(function iAmATrait (core) {
-  core.public = core.traits }) // ['iAmATrait']
+npm i --save limbs-core limbs-private
 ```
 
-To pre-populate the returned object with useful functionality, you pass _traits_
-to the factory. Two traits come pre-packaged with Limbs; those are the `Private`
-trait and the `Public` trait.
+## Usage
 
 ```
-var Private = New.Private
-  , Public  = New.Public
+Private = require('limbs-private')
+Accessor = Private.Accessor
 ```
-
-Or, in ES6, simply:
-
-```
-import New, { Private, Public } from 'limbs'
-```
-
-The `Private` and `Public` traits modify `core.private` and `core.public`.
-Other than that distinction, they work in the same way:
-
-```
-myObject = New(
+New(
   Private({ X: 1 }),
-  Public({ Y: 2 })
-)
-// { Y: 2 }
-```
+  Private.Accessor('X')
+  Private.Accessor('tenTimesX',
+    function getter (value) { return core.private.X * 10 }),
+  PrivateAccessor('Y',
+    function getter (core, 
+    function setter (core
+  Private.Accessor('
+  Private.Accessor)
+New(Private({ X: 1 }), Private.Getter('X')).X // 1
+  Private.Getter('X', function (value) { return 
 
-Of course, private values are no good if you have no way to access them, and
-this is where closures really shine: you can pass functions to `Public` and
-`Private`. Each function gets passed the entire `core` (with all modifications
-prior to that point already applied), so you can e.g. define getters and setters:
+## Implementation
+
+Under the hood, `Private` adds `core.private = {}` if missing, and keeps
+private values there.
+
+`Private.Accessor` is a less verbose wrapper around `Object.defineProperty`
+and makes use of JavaScript's native getters and setters.
 
 ```
 myObject = New(
