@@ -22,10 +22,10 @@ module.exports = function LocalFileSystemTrait (...configs) {
     }, ...configs.map(cfg=>cfg||{}))
 
     if (config.load) { // evented interface to filesystem; TODO req/res id ala plan9
-      on(constants.commands.CheckFile, function (uri) { // file metadata
-        require('./check')(cwd, uri).then(events.next) })
-      on(constants.commands.LoadFile, function (uri) { // file metadata
-        require('./load')(cwd, uri).then(events.next) }) }
+      on(constants.commands.CheckFile, function (event) { // file metadata
+        require('./check')(config.cwd, event[1]).then(events.next.bind(events)) })
+      on(constants.commands.LoadFile, function (event) { // file metadata
+        require('./load')(config.cwd, event[1]).then(events.next.bind(events)) }) }
 
     // initial snapshot (recursive ls, aka: glob + stat)
     if (config.snapshot) {
@@ -52,7 +52,7 @@ module.exports = function LocalFileSystemTrait (...configs) {
       const gaze = new (require('gaze').Gaze)(config.glob, { cwd: config.cwd, interval: 10, debounceDelay: 50 })
       // gaze.on('all', (event, path)=>{})
       gaze.on('changed', path=>{
-        const uri = relative(cwd, path)
+        const uri = relative(config.cwd, path)
         emit('FileChanged', uri) }) }
 
     // return actual configuration, made immutable
@@ -61,5 +61,3 @@ module.exports = function LocalFileSystemTrait (...configs) {
   }
 
 }
-
-

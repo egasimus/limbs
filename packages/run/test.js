@@ -1,4 +1,5 @@
-const Directory = require('../src/DirectoryFactory')
+var New = require('limbs-core')
+  , Run = require('.')
 const Run = require('../src/traits/Run')
 const LocalFileSystem = require('../src/traits/LocalFileSystem')
 const { sleep } = require('../src/helpers')
@@ -13,7 +14,7 @@ describe('the Run directive', ()=>{
 
   it('runs one sync function defined in-place, and emits RunComplete', (done)=>{
     let ran = false
-    const $ = Directory(Run((...args)=>{
+    const $ = New(Run((...args)=>{
       expect(args[0]).toBe($)
       expect(args[1]).toEqual({})
       ran=true }))
@@ -23,7 +24,7 @@ describe('the Run directive', ()=>{
 
   it('runs one async function defined in-place and emits RunComplete', (done)=>{
     let ran = false
-    const $ = Directory(Run(async(...args)=>{
+    const $ = New(Run(async(...args)=>{
       expect(args[0]).toBe($)
       expect(args[1]).toEqual({})
       await sleep(500)
@@ -36,7 +37,7 @@ describe('the Run directive', ()=>{
     rimrafSync(ROOT)
     mkdirSync(ROOT)
     writeFileSync(PATH, 'module.exports = () => ({ ran: true })')
-    const $ = Directory(
+    const $ = New(
       // [ 'LogToConsole' ],
       LocalFileSystem({ cwd: ROOT }),
       // [ 'RunInThisContext' ],
@@ -50,7 +51,7 @@ describe('the Run directive', ()=>{
     rimrafSync(ROOT)
     mkdirSync(ROOT)
     writeFileSync(PATH, 'module.exports = () => Promise.resolve({ ran: true })')
-    const $ = Directory(
+    const $ = New(
       // [ 'LogToConsole' ],
       LocalFileSystem({ cwd: ROOT }),
       // [ 'RunInThisContext' ],
@@ -84,7 +85,7 @@ describe('the Run directive', ()=>{
           , syncD ]
         ]
       ]
-    const directory = Directory([ 'Run', ...RUN_TREE ])
+    const directory = New([ 'Run', ...RUN_TREE ])
     expect(false).toBe(true)
   })
 

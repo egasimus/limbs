@@ -1,8 +1,9 @@
 module.exports = function check (cwd, uri) {
-  const fullPath = require('path').resolve(cwd, uri)
-  const { FileError, FileChecked } = require('../../File').events
+  console.log('check', cwd, uri)
+  var fullPath = require('path').resolve(cwd, uri)
+    , events = require('./constants').events
   return new Promise(next=>
     require('fs').stat(fullPath, (error, fs)=>next(error
-      ? [ FileError,   uri, error ]
-      : [ FileChecked, uri, { fs, fullPath } ]))) }
+      ? [ events.FileError,   uri, error ]
+      : [ events.FileChecked, uri, { fs, fullPath } ]))) }
 

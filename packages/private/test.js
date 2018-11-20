@@ -4,7 +4,7 @@ var test = require('tape')
   , Private = require('.')
 
 test('factory + Public/Private trait', function (t) {
-  var obj = limbs(
+  var obj = New(
     Public
       (),
     Private

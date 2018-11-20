@@ -19,7 +19,7 @@ explore the following modules.
 * limbs-tree: Generic tree structure with root, relative paths, and current node
 * limbs-file: Idiomatic access to local file system
 * limbs-reload: Clear require cache
-* limbs-eval: Sandboxed evaluation of source code
+* limbs-run: Sandboxed evaluation of source code
 * limbs-watch: Gaze wrapper that emits events
 
 ## Installation
