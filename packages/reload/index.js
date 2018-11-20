@@ -9,10 +9,10 @@ module.exports = function ReloadTrait (root) {
 
   return function Reload (state = {}) {
 
-    console.log(state)
-
     const { Events, File } = state
     if (!Events || !File) throw new Error(`'Events' or 'File' missing in ${Object.keys(state)}`)
 
     Events.on(events.FileChanged, ([_, uri]) =>
-      require('./reload')(state, uri)) } }
+      require('./reload')(state, uri))
+
+    return state } }

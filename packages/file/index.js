@@ -35,7 +35,11 @@ module.exports = function LocalFileSystemTrait (...configs) {
       const gaze = new (require('gaze').Gaze)(
         File.glob, { cwd: File.cwd, interval: 10, debounceDelay: 50 })
       // gaze.on('all', (event, path)=>{})
-      gaze.on('ready', () => Events.emit('Watching', File.cwd, File.glob))
+      gaze.on('ready', () => {
+        File.gaze && File.gaze.close()
+        File.gaze = gaze
+        Events.emit('Watching', File.cwd, File.glob)
+      })
       gaze.on('changed', path =>
         Events.emit('FileChanged', require('path').relative(File.cwd, path))) }
 

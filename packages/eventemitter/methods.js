@@ -2,15 +2,15 @@ var filter = require('rxjs/operators').filter
 
 module.exports = {
 
-  emit: function (Events) { // send [<event>, <arg1>, ...<argN>] down the event stream
-    Events.stream.next(Array.prototype.slice.call(arguments)) },
+  emit: function ({ Events }, ...args) { // send [<event>, <arg1>, ...<argN>] down the event stream
+    Events.stream.next(args) },
 
-  on: function (Events, predicate, handler) {
+  on: function ({ Events }, predicate, handler) {
     return Events.stream
       .pipe(filter(function (event) { return event[0] === predicate }))
       .subscribe(handler) },
 
-  once: function (Events, predicate, handler) {
+  once: function ({ Events }, predicate, handler) {
     var subscription
     return subscription = Events.stream
       .pipe(filter(function (event) { return event[0] === predicate }))
