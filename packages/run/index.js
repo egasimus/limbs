@@ -1,6 +1,12 @@
 module.exports = function RunTrait () {
 
-  var tasks = Array.prototype.slice.call(arguments) // TODO: mix tasks and options
+  // TODO: mix tasks and options
+  // TODO: maybe this module is unnecessary?
+  // no tail call optimization in JS
+  // so New(list)=>first(list)(),New(rest(list)) might be unreliable?
+  // see whether asynchronicity may be shoehorned into reduce; compare with lua
+
+  var tasks = Array.prototype.slice.call(arguments) 
   
   return function Run (add) {
 

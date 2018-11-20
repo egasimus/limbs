@@ -1,8 +1,10 @@
 module.exports = function AuditTrait (preprocess) {
-  return function Audit () {
-    if (this.events) {
-      this.audit = this.events.subscribe(function (event) {
-        event = preprocess(event)
-        if (event) console.log(event) }) } } }
+  return function Audit (state = {}) {
+    const { Events } = state
+    if (!Events) throw new Error(`'Events' missing in ${Object.keys(state)}`)
+    state.Audit = Events.stream.subscribe(event => {
+      event = preprocess(event)
+      event && console.log(event) })
+    return state } }
 
 // TODO preexisting subscriptions
