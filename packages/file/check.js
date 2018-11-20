@@ -1,5 +1,4 @@
 module.exports = function check (cwd, uri) {
-  console.log('check', cwd, uri)
   var fullPath = require('path').resolve(cwd, uri)
     , events = require('./constants').events
   return new Promise(next=>

@@ -7,18 +7,16 @@ module.exports = function LocalFileSystemTrait (...configs) {
     var events    = this.events
       , on        = this.public.on
       , emit      = this.public.emit
-      , filter    = require('rxjs/operators').filter
       , relative  = require('path').relative
       , constants = require('./constants')
-      , Set       = require('immutable').Set
 
     // merge configuration objects
     const config = Object.assign({
       snapshot: true,
       load:     true,
       watch:    true,
-      cwd:      process.cwd(),
-      glob:     [ '**/*', '!node_modules/**' ],
+      cwd:      this.public.cwd || process.cwd(),
+      glob:     this.public.glob || [ '**/*', '!node_modules/**' ],
     }, ...configs.map(cfg=>cfg||{}))
 
     if (config.load) { // evented interface to filesystem; TODO req/res id ala plan9
@@ -29,34 +27,18 @@ module.exports = function LocalFileSystemTrait (...configs) {
 
     // initial snapshot (recursive ls, aka: glob + stat)
     if (config.snapshot) {
-      // glob an initial snapshot of the directory contents
-      const globbed = Set(require('globule').find(config.glob, { cwd: config.cwd }))
-      // start on the next tick,
-      // this allows any remaining traits to synchronously initialize first
-      setImmediate(()=>{
-        // when all globbed items have been checked, emit and unsubscribe
-        let checked = Set()
-        const snapshot = events
-          .pipe(filter(([event])=>event===constants.events.FileChecked||event===constants.events.FileError))
-          .subscribe(([_, uri])=>{
-            checked = checked.add(uri)
-            if (checked.equals(globbed)) {
-              emit('SnapshotTaken', checked)
-              snapshot.unsubscribe()
-            } })
-        // start checking items from the snapshot
-        globbed.forEach(pathname=>emit(constants.commands.CheckFile, pathname)) }) }
+      this.waitForSnapshot = true
+      require('./snapshot')(this, config.glob, config.cwd) }
 
     // watch for updates
     if (config.watch) {
       const gaze = new (require('gaze').Gaze)(config.glob, { cwd: config.cwd, interval: 10, debounceDelay: 50 })
       // gaze.on('all', (event, path)=>{})
-      gaze.on('changed', path=>{
+      gaze.on('ready', function () {
+        emit('Watching', config.cwd, config.glob) })
+      gaze.on('changed', function (path) {
         const uri = relative(config.cwd, path)
         emit('FileChanged', uri) }) }
-
-    // return actual configuration, made immutable
-    // return Map(config)
 
   }
 
