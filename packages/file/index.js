@@ -2,7 +2,10 @@ module.exports = function LocalFileSystemTrait (...configs) {
 
   return function LocalFileSystem (add) {
 
+    add(require('limbs-eventemitter')())
+
     var events    = this.events
+      , on        = this.public.on
       , emit      = this.public.emit
       , filter    = require('rxjs/operators').filter
       , relative  = require('path').relative
@@ -19,12 +22,10 @@ module.exports = function LocalFileSystemTrait (...configs) {
     }, ...configs.map(cfg=>cfg||{}))
 
     if (config.load) { // evented interface to filesystem; TODO req/res id ala plan9
-      var handlers = {}
-      handlers[constants.commands.CheckFile] = function (uri) { // file metadata
-        require('./check')(cwd, uri).then(events.next) }
-      handlers[constants.commands.LoadFile] = function (uri) { // file metadata
-        require('./load')(cwd, uri).then(events.next) }
-      add(require('limbs-eventemitter')(handlers)) }
+      on(constants.commands.CheckFile, function (uri) { // file metadata
+        require('./check')(cwd, uri).then(events.next) })
+      on(constants.commands.LoadFile, function (uri) { // file metadata
+        require('./load')(cwd, uri).then(events.next) }) }
 
     // initial snapshot (recursive ls, aka: glob + stat)
     if (config.snapshot) {
@@ -44,7 +45,7 @@ module.exports = function LocalFileSystemTrait (...configs) {
               snapshot.unsubscribe()
             } })
         // start checking items from the snapshot
-        globbed.forEach(pathname=>emit(CheckFile, pathname)) }) }
+        globbed.forEach(pathname=>emit(constants.commands.CheckFile, pathname)) }) }
 
     // watch for updates
     if (config.watch) {

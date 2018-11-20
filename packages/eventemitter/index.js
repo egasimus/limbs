@@ -3,13 +3,13 @@ module.exports = function EventsTrait () {
   return function Events (add) {
     var core = this
     this.events = new (require('rxjs').Subject)()
-    Object.defineProperty(this.public, 'events',
-      { enumerable: true, get: function () { return this.events }.bind(this) })
+    if (!core.events) Object.defineProperty(this.public, 'events',
+      { enumerable: true, get: function () { return core.events } })
     ;['emit', 'on', 'off', 'once', 'onAny'].forEach(function (method) {
-      Object.defineProperty(core.public, method,
+      if (!core.public[method]) Object.defineProperty(core.public, method,
         { enumerable: true, get: function () {
           return function () {
-            return require('./methods')[method].apply(this, arguments) } } }) })
+            return require('./methods')[method].apply(core, arguments) } } }) })
     configs.forEach(function (config) {
       if (!config) return
       config = typeof config == 'function' ? config(core) : config
