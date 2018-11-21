@@ -2,7 +2,7 @@
   "name": "limbs-core",
   "version": "0.1.0",
   "author": "Adam Avramov <adam.b.avramov@gmail.com>",
-  "description": "Closure-powered trait-based OOP system for ES5+",
+  "description": "Metaprogramming helpers for ES6",
   "homepage": "https://github.com/egasimus/limbs",
   "keywords": [
     "ES5",

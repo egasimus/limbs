@@ -1,6 +1,12 @@
 {
   "name": "limbs",
   "private": "true",
-  "devDependencies": { "lerna": "^3.4.3" },
-  "scripts": { "test": "node test.js" }
+  "devDependencies": {
+    "lerna": "^3.4.3",
+    "mkdirp": "^0.5.1"
+  },
+  "scripts": {
+    "test": "node util/test.js",
+    "links": "node util/link.js"
+  }
 }
