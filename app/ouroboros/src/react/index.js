@@ -1,5 +1,5 @@
 const Reload = require('limbs-reload')
-    , Catch  = require('./catch')
+    , Catch  = require('../catch')
 
 module.exports = [
   Catch((state = {}) => {
@@ -33,3 +33,4 @@ module.exports = [
 
   Reload(__filename)
 ]
+

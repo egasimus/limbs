@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "limbs-core": "^0.2.1"
-  },
-  "devDependencies": {
-    "tape": "^4.9.1"
-  }
-}

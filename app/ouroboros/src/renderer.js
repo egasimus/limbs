@@ -16,7 +16,7 @@ module.exports = [
     // state.logsContainer && (state.logsContainer.innerHTML += `renderer :: ${require('./yaml')(event)}<br>`)
   }),
 
-  ...require('./ui-react'),
+  ...require('./react'),
 
   // require('./ui-vanilla')
 
