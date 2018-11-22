@@ -19,7 +19,6 @@
   "license": "ISC",
   "repository": "github:egasimus/limbs",
   "devDependencies": {
-    "lerna": "^3.4.3",
     "tape": "^4.9.1"
   },
   "scripts": {

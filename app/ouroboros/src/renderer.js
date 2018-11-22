@@ -5,7 +5,9 @@ const Events = require('limbs-eventemitter')
 
 module.exports = [
 
-  Events(),
+  Events(({ Events })=>{
+    Events.offAll()
+  }),
 
   File({ cwd: __dirname }),
 

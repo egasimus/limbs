@@ -1,8 +1,8 @@
 module.exports = function CatchTrait (fn) {
-  return function Catch (state) {
+  return async function Catch (state = {}) {
     // TODO state snapshot
     try {
-      state = fn(state)
+      state = await Promise.resolve(fn(state))
     } catch (e) {
       state.Events.emit('Error', e)
     }

@@ -12,16 +12,15 @@ module.exports = [
 
   (state={})=>{counter++; return {...state,counter}},
 
-  Events(),
+  Events(({ Events })=>{
+    Events.offAll()
+    Events.once('SnapshotTaken', () => { snapshotTaken = true }) }),
 
   File({
     cwd:  require('path').resolve(__dirname, '..'),
-    glob: ['**/*', '!node_modules/**', 'node_modules/limbs-*/*' ]
-    // waitForSnapshot: true
-  }),
+    glob: ['**/*', '!node_modules/**', 'node_modules/limbs-*/*' ] }),
 
   Audit((state, event)=>{
-    if (event[0] === 'SnapshotTaken') { snapshotTaken = true }
     if (event[0] === 'SnapshotTaken') event = ['SnapshotTaken', event[1].length]
     if (!snapshotTaken && (['CheckFile', 'FileChecked'].indexOf(event[0]) > -1)) return
     if (event[0] === 'RunComplete') event[1] = Object.assign({}, event[1], { events: '...' })
@@ -29,18 +28,12 @@ module.exports = [
     if (state.window) state.window.webContents.send('main-event', yaml)
     return yaml }),
 
-  Catch(async function main (state = {}) {
-
+  Catch((state = {}) => new Promise(ok=>{
     const { app } = require('electron')
-    if (state.window || app.isReady()) {
-      require('./window/update')(state)
-    } else {
-      app.on('ready', ()=>require('./window/update')(state))
-    }
-
-    return state
-
-  }),
+    const updateWindow = () => ok(require('./window/update')(state))
+    ;(state.window || app.isReady())
+      ? updateWindow()
+      : app.on('ready', updateWindow) })),
 
   Reload(__filename)
 
