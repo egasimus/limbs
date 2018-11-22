@@ -1,12 +1,12 @@
-const Events = require('limbs-eventemitter')
+const Events = require('limbs-events')
     , File   = require('limbs-file')
     , Audit  = require('limbs-audit')
     , Reload = require('limbs-reload')
 
 module.exports = [
 
-  Events(({ Events })=>{
-    Events.offAll()
+  Events(state=>{
+    state.Events.offAll()
   }),
 
   File({ cwd: __dirname }),

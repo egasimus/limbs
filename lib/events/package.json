@@ -1,5 +1,5 @@
 {
-  "name": "limbs-eventemitter",
+  "name": "limbs-events",
   "version": "0.1.0",
   "author": "Adam Avramov <adam.b.avramov@gmail.com>",
   "description": "EventEmitter-like interface over RxJs event stream",

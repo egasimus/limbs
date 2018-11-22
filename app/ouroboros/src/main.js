@@ -1,4 +1,4 @@
-const Events = require('limbs-eventemitter')
+const Events = require('limbs-events')
     , File   = require('limbs-file')
     , Audit  = require('limbs-audit')
     , Reload = require('limbs-reload')
