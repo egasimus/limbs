@@ -2,6 +2,7 @@ const Events = require('limbs-eventemitter')
     , File   = require('limbs-file')
     , Audit  = require('limbs-audit')
     , Reload = require('limbs-reload')
+    , Catch  = require('./catch')
 
 let snapshotTaken = false
 
@@ -28,16 +29,18 @@ module.exports = [
     if (state.window) state.window.webContents.send('main-event', yaml)
     return yaml }),
 
-  async function main (state = {}) {
-    // console.log(state)
+  Catch(async function main (state = {}) {
+
     const { app } = require('electron')
     if (state.window || app.isReady()) {
       require('./window/update')(state)
     } else {
       app.on('ready', ()=>require('./window/update')(state))
     }
+
     return state
-  },
+
+  }),
 
   Reload(__filename)
 
