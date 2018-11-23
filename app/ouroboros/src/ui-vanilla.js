@@ -21,7 +21,7 @@ module.exports = (state = {}) => {
     let tree = require('path-list-to-tree').default(paths)
     console.log(tree)
     state.rendererRequireContainer.innerHTML =
-      '<strong>' + paths.length + '</strong> modules in require.cache<pre>' + 
+      '<strong>' + paths.length + '</strong> modules in require.cache<pre>' +
         tree[0].children.map(node=>require('./path-to-color')(node))
       + '<pre>'
 

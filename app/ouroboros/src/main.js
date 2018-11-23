@@ -1,8 +1,8 @@
 const Events = require('limbs-events')
     , File   = require('limbs-file')
     , Audit  = require('limbs-audit')
-    , Reload = require('limbs-reload')
-    , Catch  = require('./catch')
+    , Run    = require('limbs-run')
+    , Reload = require('limbs-run/reload')
 
 let snapshotTaken = false
 
@@ -28,7 +28,7 @@ module.exports = [
     if (state.window) state.window.webContents.send('main-event', yaml)
     return yaml }),
 
-  Catch((state = {}) => new Promise(ok=>{
+  Run((state = {}) => new Promise(ok=>{
     const { app } = require('electron')
     const updateWindow = () => ok(require('./window/update')(state))
     ;(state.window || app.isReady())

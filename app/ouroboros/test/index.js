@@ -2,7 +2,7 @@ import test from 'ava'
 import { Application } from 'spectron'
 
 const LAUNCHER = require.resolve('dothot/launcher')
-const ENTRYPOINT = require('path').resolve(__dirname, '..', 'src', 'dothot.config.js') 
+const ENTRYPOINT = require('path').resolve(__dirname, '..', 'src', 'dothot.config.js')
 
 test.beforeEach(async t => {
   const app = t.context.app = new Application({

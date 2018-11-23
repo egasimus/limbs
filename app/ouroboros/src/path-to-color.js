@@ -7,7 +7,7 @@ module.exports = function colorizeTree ({ name, children }, indent = 0, offset =
     return colorizeTree(node, indent+1, offset+i*(size/children.length), size/children.length)
   }).join('')}`
   // const colorize = offset => node => {
-    
+
   // }
   // tree.forEach(colorize(0))
   // paths.forEach(path=>{
