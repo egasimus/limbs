@@ -1,5 +1,5 @@
 {
-  "name": "limbs-file",
+  "name": "limbs-files",
   "devDependencies": {
     "rimraf": "^2.6.2",
     "tape": "^4.9.1"

@@ -1,5 +1,5 @@
 const Events = require('limbs-events')
-    , File   = require('limbs-file')
+    , Files  = require('limbs-files')
     , Audit  = require('limbs-audit')
     , Reload = require('limbs-run/reload')
     , Run    = require('limbs-run')
@@ -10,7 +10,7 @@ module.exports = [
     state.Events.offAll()
   }),
 
-  File({ cwd: __dirname }),
+  Files({ cwd: __dirname }),
 
   Audit((state, event)=>{
     if (event[0] === 'Error') {

@@ -1,5 +1,5 @@
 const Events = require('limbs-events')
-    , File   = require('limbs-file')
+    , Files  = require('limbs-files')
     , Audit  = require('limbs-audit')
     , Run    = require('limbs-run')
     , Reload = require('limbs-run/reload')
@@ -16,7 +16,7 @@ module.exports = [
     Events.offAll()
     Events.once('SnapshotTaken', () => { snapshotTaken = true }) }),
 
-  File({
+  Files({
     cwd:  require('path').resolve(__dirname, '..'),
     glob: ['**/*', '!node_modules/**', 'node_modules/limbs-*/*' ] }),
 
