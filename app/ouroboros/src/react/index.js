@@ -1,4 +1,4 @@
-module.exports = (state = {}) => {
+module.exports = (state = {}) => {//
   document.body.innerHTML = '<div id="Root">Initializing...</div>'
   state.React = state.React || {}
   state.React.root = document.getElementById('Root')

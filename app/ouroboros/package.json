@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "start": "electron index.js",
-    "test": "ava"
+    "start": "electron src/index.js"
   },
   "main": "index.js",
   "dependencies": {

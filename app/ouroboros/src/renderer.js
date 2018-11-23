@@ -1,14 +1,9 @@
 const Events = require('limbs-events')
     , Files  = require('limbs-files')
     , Audit  = require('limbs-audit')
-    , Reload = require('limbs-run/reload')
-    , Run    = require('limbs-run')
+    , ReRun  = require('limbs-run/rerun')
 
 module.exports = [
-
-  Events(state=>{
-    state.Events.offAll()
-  }),
 
   Files({ cwd: __dirname }),
 
@@ -16,15 +11,12 @@ module.exports = [
     if (event[0] === 'Error') {
       console.error(event.slice(1))
     } else {
-      console.debug(event)
-    }
-    // state.logsContainer && (state.logsContainer.innerHTML += `renderer :: ${require('./yaml')(event)}<br>`)
-  }),
+      console.debug(event) } }),
 
-  Run('./redux', require),
+  ReRun(
+    './redux', require),
 
-  Run('./react', require),
-
-  Reload(__filename)
+  ReRun(
+    './react', require),
 
 ]
