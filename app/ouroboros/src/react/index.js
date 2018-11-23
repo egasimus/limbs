@@ -7,5 +7,6 @@ module.exports = (state = {}) => {//
     { get store () { return state.Redux.store } },
     require('./root')())
   state.React.rendered = require('react-dom').render(state.React.vdom, state.React.root)
+  console.log('reran')
   return state
 }

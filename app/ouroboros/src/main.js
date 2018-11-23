@@ -16,8 +16,6 @@ module.exports = [
     if (state.window) state.window.webContents.send('main-event', yaml)
     return yaml }),
 
-  Refresh(),
-
   Run('./window', require),
 
 ]
