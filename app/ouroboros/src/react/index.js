@@ -5,7 +5,7 @@ module.exports = (state = {}) => {//
   state.React.vdom = require('react').createElement(
     require('react-redux').Provider,
     { get store () { return state.Redux.store } },
-    require('./root')())
+    require('./root')(state))
   state.React.rendered = require('react-dom').render(state.React.vdom, state.React.root)
   console.log('reran')
   return state

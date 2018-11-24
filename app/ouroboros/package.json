@@ -1,16 +1,24 @@
 {
   "scripts": {
-    "start": "electron src/index.js"
+    "start": "electron --enable-gpu-rasterization src/index.js"
   },
   "main": "index.js",
   "dependencies": {
     "chroma-js": "^1.4.0",
+    "cytoscape": "^3.2.20",
+    "cytoscape-cola": "^2.3.0",
+    "d3": "^5.7.0",
     "electron": "^3.0.7",
+    "graph-data-structure": "^1.8.0",
     "js-yaml": "^3.12.0",
     "path-list-to-tree": "^1.1.1",
     "react": "^16.6.3",
+    "react-cytoscapejs": "^1.1.0",
+    "react-d3-graph": "^2.0.0-rc2",
     "react-dom": "^16.6.3",
     "react-redux": "^5.1.1",
-    "redux": "^4.0.1"
+    "react-vis-force": "^0.3.1",
+    "redux": "^4.0.1",
+    "webcola": "^3.3.8"
   }
 }

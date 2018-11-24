@@ -5,13 +5,15 @@ const Events = require('limbs-events')
 
 module.exports = [
 
-  Files({ cwd: __dirname }),
+  Files(
+    { cwd: __dirname }),
 
-  Audit((state, event)=>{
-    if (event[0] === 'Error') {
-      console.error(event.slice(1))
-    } else {
-      console.debug(event) } }),
+  Audit(
+    (state, event)=>{
+      if (event[0] === 'Error') {
+        console.error(event.slice(1))
+      } else {
+        console.debug(event) } }),
 
   ReRun(
     './redux', require),

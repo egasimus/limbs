@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "clear-module": "^3.0.0"
+    "clear-module": "^3.0.0",
+    "graph-data-structure": "^1.8.0",
+    "is-builtin-module": "^3.0.0"
   }
 }
