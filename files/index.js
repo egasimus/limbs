@@ -2,7 +2,7 @@ module.exports = function LocalFileSystemTrait (...configs) {
 
   return function LocalFileSystem (state = {}) {
 
-    const { Events } = state
+    const { Events, readOnly, addMethods } = state
     const { CheckFile, LoadFile } = require('./constants').commands
 
     // inherit configuration or create it with default values
@@ -16,8 +16,8 @@ module.exports = function LocalFileSystemTrait (...configs) {
     Object.assign(Files, ...configs.map(cfg=>cfg||{}))
 
     // create public read-only accessors for config and methods
-    if (!state.Files) require('../core/readonly')(state, 'Files', Files)
-    require('../core/methods')(require, './methods', state, 'Files')
+    if (!state.Files) readOnly(state, 'Files', Files)
+    addMethods(require, './methods', state, 'Files')
 
     // initial snapshot (recursive ls, aka: glob + stat)
     if (Files.waitForSnapshot) Files.snapshot()

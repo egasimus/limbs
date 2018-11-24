@@ -4,7 +4,7 @@
   "author": "Adam Avramov <adam.b.avramov@gmail.com>",
   "homepage": "https://github.com/egasimus/limbs",
   "scripts": {
-    "start": "electron --enable-gpu-rasterization gui/index.js",
+    "start": "electron --enable-gpu-rasterization start.js",
     "test": "node util/test.js",
     "links": "node util/link.js"
   },

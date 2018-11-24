@@ -11,9 +11,17 @@ Cytoscape.use(Cola)
 
 module.exports = state => {
 
-  const { nodes, links } = state.Refresh.graph.serialize()
-  const elements = []
-  const parents = []
+  const nodes = new Set(), edges = [], elements = [], parents = []
+
+  Object.keys(state.Deps).forEach(child=>{
+    console.log(child)
+    nodes.add(child)
+    for (let parent of state.Deps[child]) {
+      nodes.add(parent)
+      edges.push({ source: parent, target: child })
+      console.log(parent)
+    }
+  })
 
   function addParent (id) {
     const parent = id.split('/').slice(0,-1).join('/')
@@ -34,20 +42,21 @@ module.exports = state => {
           , parent: addParent(parent) }}) }
     return parent }
 
-  nodes.forEach(node=>{
-    if (node.id.indexOf('node_modules')>-1) return
-    node.parent = addParent(node.id)
-    if(!node.parent)return
-    let label = node.id.split('/')
-    node.label = (label[label.length-1] === 'index.js')
+  [...nodes].forEach(id=>{
+    let data = { id }
+    if (data.id.indexOf('node_modules')>-1) return
+    data.parent = addParent(data.id)
+    if(!data.parent)return
+    let label = data.id.split('/')
+    data.label = (label[label.length-1] === 'index.js')
       ? label[label.length-2] + '/'
       : label[label.length-1]
-    elements.push({ group: 'nodes', data: node })
+    elements.push({ group: 'nodes', data }) })
 
-  })
-
-  links.forEach(link=>{
-    elements.push({ group: 'edges', data: link })
+  edges.forEach(data=>{
+    if (data.source.indexOf('node_modules')>-1) return
+    if (data.target.indexOf('node_modules')>-1) return
+    elements.push({ group: 'edges', data })
   })
 
   const style = { width: window.innerWidth, height: window.innerHeight }
@@ -56,11 +65,12 @@ module.exports = state => {
     { name: 'cola'
     , randomize: true
     , refresh: 0.1
+    // , maxSimulationTime: 10000
     , infinite: true
     , nodeDimensionsIncludeLabels: true
     , padding: 0
     , nodeSpacing: node => node.isParent() ? 20 : 2
-    , flow: { axis: 'y', minSeparation: 100 }
+    // , flow: { axis: 'y', minSeparation: 100 }
   }
 
   const stylesheet =

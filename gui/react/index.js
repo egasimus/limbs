@@ -8,5 +8,4 @@ module.exports = (state = {}) => {//
     require('./root')(state))
   state.React.rendered = require('react-dom').render(state.React.vdom, state.React.root)
   console.log('reran')
-  return state
-}
+  return state }

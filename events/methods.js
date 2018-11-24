@@ -1,4 +1,4 @@
-var filter = require('rxjs/operators').filter
+const { filter } = require('rxjs/internal/operators/filter')
 
 module.exports = {
 
