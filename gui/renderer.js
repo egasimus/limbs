@@ -1,7 +1,6 @@
-const Events = require('limbs-events')
-    , Files  = require('limbs-files')
-    , Audit  = require('limbs-audit')
-    , ReRun  = require('limbs-run/rerun')
+const Files  = require('../files')
+    , Audit  = require('../events/audit')
+    , ReRun  = require('../run/rerun')
 
 module.exports = [
 

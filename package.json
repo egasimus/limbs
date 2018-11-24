@@ -1,12 +1,38 @@
 {
   "name": "limbs",
-  "private": "true",
-  "devDependencies": {
-    "lerna": "^3.4.3",
-    "mkdirp": "^0.5.1"
-  },
+  "version": "0.3.0",
+  "author": "Adam Avramov <adam.b.avramov@gmail.com>",
+  "homepage": "https://github.com/egasimus/limbs",
   "scripts": {
+    "start": "electron --enable-gpu-rasterization gui/index.js",
     "test": "node util/test.js",
     "links": "node util/link.js"
+  },
+  "dependencies": {
+    "lerna": "^3.4.3",
+    "mkdirp": "^0.5.1",
+    "is-regex": "^1.0.4",
+    "rxjs": "^6.3.3",
+    "tape": "^4.9.1",
+    "gaze": "^1.1.3",
+    "globule": "^1.2.1",
+    "clear-module": "^3.0.0",
+    "graph-data-structure": "^1.8.0",
+    "is-builtin-module": "^3.0.0",
+    "chroma-js": "^1.4.0",
+    "cytoscape": "^3.2.20",
+    "cytoscape-cola": "^2.3.0",
+    "d3": "^5.7.0",
+    "electron": "^3.0.7",
+    "js-yaml": "^3.12.0",
+    "path-list-to-tree": "^1.1.1",
+    "react": "^16.6.3",
+    "react-cytoscapejs": "^1.1.0",
+    "react-d3-graph": "^2.0.0-rc2",
+    "react-dom": "^16.6.3",
+    "react-redux": "^5.1.1",
+    "react-vis-force": "^0.3.1",
+    "redux": "^4.0.1",
+    "webcola": "^3.3.8"
   }
 }

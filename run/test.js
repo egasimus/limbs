@@ -1,4 +1,4 @@
-var { Do } = require('limbs-core')
+var { Do } = require('../core')
   , Run = require('.')
 const LocalFileSystem = require('../src/traits/LocalFileSystem')
 const { sleep } = require('../src/helpers')

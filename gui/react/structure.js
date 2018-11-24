@@ -60,7 +60,7 @@ module.exports = state => {
     , nodeDimensionsIncludeLabels: true
     , padding: 0
     , nodeSpacing: node => node.isParent() ? 20 : 2
-    , flow: { axis: 'x' }
+    , flow: { axis: 'y', minSeparation: 100 }
   }
 
   const stylesheet =

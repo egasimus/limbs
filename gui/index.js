@@ -15,9 +15,9 @@ Module._load = (request, parent, isMain) => {
 require('graph-data-structure')()
 
 const step    = (...args) => require('./step')(...args)
-    , Do      = require('limbs-core/do').Executor(step)
-    , Events  = require('limbs-events')
-    , Refresh = require('limbs-run/refresh-require')
+    , Do      = require('../core/do').Executor(step)
+    , Events  = require('../events')
+    , Refresh = require('../run/refresh-require')
 
 Do(
   { Refresh: { graph } },

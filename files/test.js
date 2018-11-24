@@ -1,24 +1,24 @@
-var test = require('tape')
-  , New = require('limbs-core')
-  , File = require('.')
-  , resolve = require('path').resolve
-  , fs = require('fs')
-  , rimrafSync = require('rimraf').sync
+// var test = require('tape')
+//   , New = require('../core')
+//   , File = require('.')
+//   , resolve = require('path').resolve
+//   , fs = require('fs')
+//   , rimrafSync = require('rimraf').sync
 
-const ROOT = resolve(__dirname, '.sample')
+// const ROOT = resolve(__dirname, '.sample')
 
-const SAMPLE =
-  [ [ 'dir_A'
-    , [ 'dir_AA'
-      , [ 'file_AA1',    'value1' ] ]
-      , [ 'dir_AB'
-        , [ 'file_AB1',  'value2' ]
-        , [ 'file_AB2',  'value3' ] ]
-      , [ 'file_A1',     'value4' ] ]
-  , [ 'dir_B'
-    , [ 'file_B1',       'value5' ] ]
-  , [ 'file_1',          'value6' ]
-  , [ 'file_2',          'value7' ] ]
+// const SAMPLE =
+//   [ [ 'dir_A'
+//     , [ 'dir_AA'
+//       , [ 'file_AA1',    'value1' ] ]
+//       , [ 'dir_AB'
+//         , [ 'file_AB1',  'value2' ]
+//         , [ 'file_AB2',  'value3' ] ]
+//       , [ 'file_A1',     'value4' ] ]
+//   , [ 'dir_B'
+//     , [ 'file_B1',       'value5' ] ]
+//   , [ 'file_1',          'value6' ]
+//   , [ 'file_2',          'value7' ] ]
 
 // const Directory = require('../src/DirectoryFactory')
 // const LocalFileSystem = require('../src/traits/LocalFileSystem')

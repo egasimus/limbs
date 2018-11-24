@@ -1,5 +1,5 @@
-const Do = require('limbs-core/do')
-    , events = require('limbs-files/constants').events
+const Do = require('../core/do')
+    , events = require('../files/constants').events
     , { realpathSync } = require('fs')
     , { resolve } = require('path')
 

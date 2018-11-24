@@ -1,14 +1,12 @@
-const Events  = require('limbs-events')
-    , Files   = require('limbs-files')
-    , Audit   = require('limbs-audit')
-    , Refresh = require('limbs-run/refresh-require')
-    , Run     = require('limbs-run/run')
+const Audit   = require('../events/audit')
+    , Files   = require('../files')
+    , Run     = require('../run/run')
 
 module.exports = [
 
   Files({
     cwd:  require('path').resolve(__dirname, '..'),
-    glob: ['**/*', '!node_modules/**', 'node_modules/limbs-*/*' ] }),
+    glob: ['**/*', '!node_modules/**' ] }),
 
   Audit((state, event)=>{
     // console.log(event)

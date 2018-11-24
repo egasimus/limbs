@@ -1,5 +1,5 @@
 var test = require('tape')
-  , Do = require('limbs-core/do')
+  , Do = require('../core/do')
   , Events = require('.')
 
 test('on', async (t) => {

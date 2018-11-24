@@ -16,8 +16,8 @@ module.exports = function LocalFileSystemTrait (...configs) {
     Object.assign(Files, ...configs.map(cfg=>cfg||{}))
 
     // create public read-only accessors for config and methods
-    if (!state.Files) require('limbs-core/readonly')(state, 'Files', Files)
-    require('limbs-core/methods')(require, './methods', state, 'Files')
+    if (!state.Files) require('../core/readonly')(state, 'Files', Files)
+    require('../core/methods')(require, './methods', state, 'Files')
 
     // initial snapshot (recursive ls, aka: glob + stat)
     if (Files.waitForSnapshot) Files.snapshot()

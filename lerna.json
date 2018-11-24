@@ -1,7 +1,0 @@
-{
-  "packages": [
-    "lib/*",
-    "app/*"
-  ],
-  "version": "independent"
-}
