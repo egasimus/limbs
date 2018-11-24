@@ -13,15 +13,11 @@ module.exports = state => {
 
   const nodes = new Set(), edges = [], elements = [], parents = []
 
-  Object.keys(state.Deps).forEach(child=>{
-    console.log(child)
-    nodes.add(child)
-    for (let parent of state.Deps[child]) {
-      nodes.add(parent)
-      edges.push({ source: parent, target: child })
-      console.log(parent)
-    }
-  })
+  Object.keys(state.Deps).forEach(target=>{
+    nodes.add(target)
+    for (let source of state.Deps[target]) {
+      nodes.add(source)
+      edges.push({ source, target }) } })
 
   function addParent (id) {
     const parent = id.split('/').slice(0,-1).join('/')
@@ -56,8 +52,7 @@ module.exports = state => {
   edges.forEach(data=>{
     if (data.source.indexOf('node_modules')>-1) return
     if (data.target.indexOf('node_modules')>-1) return
-    elements.push({ group: 'edges', data })
-  })
+    elements.push({ group: 'edges', data }) })
 
   const style = { width: window.innerWidth, height: window.innerHeight }
 

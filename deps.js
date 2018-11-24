@@ -9,6 +9,7 @@ function dep (parent, child) {
   tree[child] = tree[child] || new Set()
   tree[child].add(parent.id) }
 
+// dep(require.main, module)
 dep(module, 'builtin-modules')
 dep(module, 'module')
 dep(module, 'path')
