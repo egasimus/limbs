@@ -4,10 +4,6 @@ const Audit   = require('../events/audit')
 
 module.exports = [
 
-  Files({
-    cwd:  require('path').resolve(__dirname, '..'),
-    glob: ['**/*', '!node_modules/**' ] }),
-
   Audit((state, event)=>{
     // console.log(event)
     const yaml = require('./helpers/yaml')(require('./helpers/tojs')(event))
@@ -15,5 +11,11 @@ module.exports = [
     return yaml }),
 
   Run('./window', require),
+
+  Run(( state = {} )=>{
+    state.window.webContents.send('main-event', require('./helpers/yaml')(
+      ['AddDeps', state.Deps]))
+    return state
+  })
 
 ]

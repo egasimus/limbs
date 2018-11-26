@@ -1,6 +1,6 @@
-module.exports = (state = {}) => {
-  state.Redux = state.Redux || {}
-  state.Redux.reducer = require('./reducer')
-  state.Redux.store = state.Redux.store || require('redux').createStore(
-    (...args)=>state.Redux.reducer(...args))
-  return state }
+module.exports = current => {
+  current.Redux = current.Redux || {}
+  current.Redux.reducer = require('./reducer')
+  current.Redux.store = current.Redux.store ||
+    require('redux').createStore((...args)=>current.Redux.reducer(...args))
+  return current }

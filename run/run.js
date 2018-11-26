@@ -1,16 +1,17 @@
 module.exports = function Runner (fn, _require) {
-  return async function Run (state = {}) {
+  return async function Run (current = {}) {
     try {
-      state = await Promise.resolve(
-        ((typeof fn === 'string')
-          ? (...args) => _require(fn)(...args)
-          : fn)(state))
+      if (typeof fn === 'string') {
+        const _fn = fn
+        fn = (...args) => _require(_fn)(...args) }
+      const result = await Promise.resolve(fn(current))
+      return result
     } catch (e) {
-      state.Events.emit('Error', e)
+      current.Events.emit('Error', e)
     }
-    return state
+    return current
   }
 }
 
-// TODO state snapshot
+// TODO state snapshot for reversion after error
 // TODO require tree snapshot
