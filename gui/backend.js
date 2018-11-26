@@ -4,18 +4,23 @@ const Audit   = require('../events/audit')
 
 module.exports = [
 
-  Audit((state, event)=>{
+  Audit((current, event)=>{
     // console.log(event)
+    if (event[0] === 'Error') console.log(event[1])
     const yaml = require('./helpers/yaml')(require('./helpers/tojs')(event))
-    if (state.window) state.window.webContents.send('main-event', yaml)
+    if (current.window) current.window.webContents.send('main-event', yaml)
     return yaml }),
 
   Run('./window', require),
 
-  Run(( state = {} )=>{
-    state.window.webContents.send('main-event', require('./helpers/yaml')(
-      ['AddDeps', state.Deps]))
-    return state
-  })
+  Run(( current = {} )=>{
+    require('./window/on-ready')(current.window, ()=>{
+      // current.window.webContents.on('deps', ()=>{
+      //   console.log('requested deps')
+        const deps = require('./helpers/yaml')(['AddDeps', current.Deps])
+        current.window.webContents.send('main-event', deps)
+      // })
+    })
+    return current })
 
 ]

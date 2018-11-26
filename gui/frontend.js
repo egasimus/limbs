@@ -18,6 +18,7 @@ module.exports = [
   Run(current=>{
 
     const { ipcRenderer } = require('electron')
+    ipcRenderer.send('deps')
     if (current.IPC) ipcRenderer.removeListener('main-event', current.IPC)
     ipcRenderer.on('main-event', current.IPC =
       (event, args) => current.Events.emit(...args))

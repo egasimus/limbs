@@ -4,8 +4,6 @@ const { createElement: h } = require('react')
     , Cytoscape = require('cytoscape')
     , Cola = require('cytoscape-cola')
     , CytoscapeComponent = require('react-cytoscapejs')
-    // , { Graph } = require('react-d3-graph')
-    // , { ForceGraph, ForceGraphNode, ForceGraphArrowLink } = require('react-vis-force')
 
 Cytoscape.use(Cola)
 
@@ -75,15 +73,16 @@ module.exports = state => {
         , 'height':           'label'
         , 'content':          'data(label)'
         , 'text-valign':      'center'
-        , 'background-color': '#888'
-        , 'background-opacity': 0.5
+        , 'background-color': '#000'
+        , 'background-opacity': 1
         , 'shape':            'rectangle'
-        , 'color':            'white' } }
+        , 'color':            '#fff' } }
     , { selector: 'edge'
       , style:
         { 'width': 1
         , 'line-color':         '#000'
         , 'curve-style':        'haystack'
+        , 'arrow-scale': 2
         , 'mid-target-arrow-shape': 'triangle'
         , 'mid-target-arrow-fill':  'filled'
         , 'mid-target-arrow-color': '#000'
@@ -92,6 +91,6 @@ module.exports = state => {
 
   return h
     ( 'div'
-    , { style: { ...abs(0,0,0,0), background:'#222', width: '100%', height: '100%' } }
+    , { style: { ...abs(0,0,0,0), background:'linear-gradient(#47a,#a74)', width: '100%', height: '100%' } }
     , ! state ? loading
       : h(CytoscapeComponent, { style, elements, layout, stylesheet }, null) ) }
