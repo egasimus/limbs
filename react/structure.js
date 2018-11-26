@@ -28,8 +28,10 @@ module.exports = state => {
                  , 'text-halign': 'center'
                  , 'text-background-color': '#000'
                  , 'text-background-opacity': 1
-                 , 'background-opacity': 0.1
-                 , 'border-opacity': 0 }
+                 , 'background-color': 'white'
+                 , 'background-opacity': 0
+                 , 'border-color': '#000'
+                 , 'border-opacity': 1 }
         , data:
           { id: parent
           , label: parent.split('/').slice(-1)
@@ -39,8 +41,8 @@ module.exports = state => {
   [...nodes].forEach(id=>{
     let data = { id }
     if (data.id.indexOf('node_modules')>-1) return
-    // data.parent = addParent(data.id)
-    // if(!data.parent)return
+    data.parent = addParent(data.id)
+    if(!data.parent)return
     let label = data.id.split('/')
     data.label = (label[label.length-1] === 'index.js')
       ? label[label.length-2] + '/'
@@ -63,7 +65,7 @@ module.exports = state => {
     , nodeDimensionsIncludeLabels: true
     , padding: 0
     , nodeSpacing: node => node.isParent() ? 20 : 2
-    , flow: { axis: 'x', minSeparation: 30 }
+    // , flow: { axis: 'x', minSeparation: 30 }
   }
 
   const stylesheet =

@@ -1,6 +1,6 @@
-const Audit   = require('../events/audit')
-    , Files   = require('../files')
-    , Run     = require('../run/run')
+const Audit   = require('./events/audit')
+    , Files   = require('./files')
+    , Run     = require('./run/run')
 
 module.exports = [
 
@@ -11,10 +11,10 @@ module.exports = [
     if (current.window) current.window.webContents.send('main-event', yaml)
     return yaml }),
 
-  Run('./window', require),
+  Run('./electron', require),
 
   Run(( current = {} )=>{
-    require('./window/on-ready')(current.window, ()=>{
+    require('./electron/on-ready')(()=>{
       // current.window.webContents.on('deps', ()=>{
       //   console.log('requested deps')
         const deps = require('./helpers/yaml')(['AddDeps', current.Deps])

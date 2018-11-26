@@ -1,7 +1,6 @@
 module.exports = (current) => {
 
   const choki = require('chokidar').watch(current.Files.cwd)
-  console.log(choki)
   choki.on('ready', ()=>{
     // TODO emit snapshot
     choki.on('add', (path, stat)=>{

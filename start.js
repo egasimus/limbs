@@ -10,13 +10,14 @@ const Do = require('./do')((...args) => {
 const Events  = require('./events')
     , Files   = require('./files')
     , Refresh = require('./refresh')
+    , IPC     = require('./electron/ipc')
 
 const readOnly = require('./helpers/readonly')
     , addMethods = require('./helpers/methods')
 
 const Entrypoint = require({
-  'browser':  './gui/backend.js',
-  'renderer': './gui/frontend.js'
+  'browser':  './backend.js',
+  'renderer': './frontend.js'
 }[process.type])
 
 module.exports = Do(
@@ -24,6 +25,7 @@ module.exports = Do(
   Events(),
   Files({ cwd: __dirname }),
   Refresh,
+  // IPC,
   Entrypoint
 ).then(state=>{
   // Files.writeYAML(`data/${process.type}.deps.yml`, state.Deps)

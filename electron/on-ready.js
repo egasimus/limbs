@@ -1,6 +1,6 @@
-module.exports = (window, cb) => {
+module.exports = (cb) => {
   const { app } = require('electron')
-  if (window || app.isReady()) {
+  if (app.isReady()) {
     cb()
   } else {
     app.on('ready', cb)
