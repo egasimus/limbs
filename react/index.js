@@ -1,11 +1,21 @@
-module.exports = (state = {}) => {//
+module.exports = (state = {}) => {
+
   document.body.innerHTML = '<div id="Root">Initializing...</div>'
+
   state.React = state.React || {}
+
   state.React.root = document.getElementById('Root')
-  state.React.vdom = require('react').createElement(
+
+  const h = require('react').createElement
+  state.React.vdom = h(
     require('react-redux').Provider,
-    { get store () { return state.Redux.store } },
-    require('./root')(state))
-  state.React.rendered = require('react-dom').render(state.React.vdom, state.React.root)
-  console.log('reran')
+    { store: state.Redux.store },
+    h(require('./root')))
+
+  state.React.rendered = require('react-dom').render(
+    state.React.vdom,
+    state.React.root)
+
+  console.log('rendered')
+
   return state }

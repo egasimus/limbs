@@ -14,17 +14,16 @@ module.exports = [
   ReRun(
     './redux', require),
 
-  // Run(current=>{
-
-  //   const { ipcRenderer } = require('electron')
-  //   ipcRenderer.send('deps')
-  //   if (current.IPC) ipcRenderer.removeListener('main-event', current.IPC)
-  //   ipcRenderer.on('main-event', current.IPC =
-  //     (event, args) => current.Events.emit(...args))
-  
-  //   current.Redux.store.dispatch({ type: 'AddDeps', args: { name: 'frontend', tree: current.Deps } }) }),
-
   ReRun(
     './react', require),
+
+  Run(current=>{
+    current.WSIPC.client.subscribe(message=>{
+      if (message[0] === 'ServerDeps') current.Redux.store.dispatch(
+        { type: 'AddDeps'
+        , args: { name: 'backend', tree: message[1] } }) })
+    current.Redux.store.dispatch(
+      { type: 'AddDeps'
+      , args: { name: 'frontend', tree: current.Deps } }) }),
 
 ]

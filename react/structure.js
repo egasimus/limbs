@@ -7,13 +7,21 @@ const { createElement: h } = require('react')
 
 Cytoscape.use(Cola)
 
-module.exports = state => {
+module.exports = connect(
+
+  (state, ownProps)=>({
+    Deps: state.deps[ownProps.id] || {}
+  })
+
+)(props => {
+
+  console.log('structure', props)
 
   const nodes = new Set(), edges = [], elements = [], parents = []
 
-  Object.keys(state.Deps).forEach(target=>{
+  Object.keys(props.Deps).forEach(target=>{
     nodes.add(target)
-    for (let source of state.Deps[target]) {
+    for (let source of props.Deps[target]) {
       nodes.add(source)
       edges.push({ source, target }) } })
 
@@ -93,6 +101,10 @@ module.exports = state => {
 
   return h
     ( 'div'
-    , { style: { ...abs(0,0,0,0), background:'linear-gradient(#47a,#a74)', width: '100%', height: '100%' } }
-    , ! state ? loading
-      : h(CytoscapeComponent, { style, elements, layout, stylesheet }, null) ) }
+    , { className: 'Structure', style: { height: '100%', width: '50%', background: '#777' } }
+    // , { style: { ...abs(0,0,0,0), background:'linear-gradient(#47a,#a74)', width: '100%', height: '100%' } }
+    , h(require('react-container-dimensions').default, null,
+        ({ width, height }) =>
+          h(CytoscapeComponent, { style: { width, height }, elements, layout, stylesheet }, null)))
+
+})
