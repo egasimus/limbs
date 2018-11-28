@@ -72,7 +72,7 @@ module.exports = connect(
     , infinite: true
     , nodeDimensionsIncludeLabels: true
     , padding: 0
-    , nodeSpacing: node => node.isParent() ? 20 : 2
+    , nodeSpacing: node => node.isParent() ? 20 : 1
     // , flow: { axis: 'x', minSeparation: 30 }
   }
 
