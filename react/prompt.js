@@ -5,10 +5,10 @@ module.exports = props =>
   h
   ( 'div'
   , { className: 'Prompt'
-    , style: { display: 'flex', ...abs('auto', 0, 0, 0), lineHeight: '1em', background: '#111', color: '#eee' } }
+    , style: { display: 'flex', ...abs('auto', 0, 0, 0), lineHeight: '1em', background: '#181818', color: '#eee' } }
   , h
     ( 'div'
-    , { style: { background: 'darkred', padding: '0.5em' } }
+    , { style: { background: 'darkred', padding: '0.5em', fontWeight: 'bold' } }
     , '~/foo/bar')
   , h
     ( 'div'
@@ -20,6 +20,6 @@ module.exports = props =>
     , null)
   , h
     ( 'div'
-    , { style: { background: 'darkblue', padding: '0.5em' } }
-    , new Date().toUTCString() )
+    , { style: { background: 'darkblue', padding: '0.5em', fontWeight: 'bold' } }
+    , new Date().toISOString() )
   )

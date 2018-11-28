@@ -1,23 +1,19 @@
-const Audit  = require('./events/audit')
-    , Run    = require('./run/run')
-    , ReRun  = require('./run/rerun')
-
 module.exports = [
 
-  Audit(
+  require('./events/audit')(
     (current, event)=>{
       if (event[0] === 'Error') {
         console.error(...event.slice(1))
       } else {
         console.debug(event) } }),
 
-  ReRun(
+  require('./run/rerun')(
     './redux', require),
 
-  ReRun(
+  require('./run/rerun')(
     './react', require),
 
-  Run(current=>{
+  require('./run/run')(current=>{
     current.WSIPC.client.subscribe(message=>{
       if (message[0] === 'ServerDeps') current.Redux.store.dispatch(
         { type: 'AddDeps'
