@@ -7,17 +7,20 @@ module.exports = function ElectronIPC (current = {}) {
   const IPC = current.IPC = current.IPC || {}
 
   if (ipcMain) {
-    ipcMain.on('frontend-event', (event, arg)=>{
+    if (IPC.unbindMain) IPC.unbindMain()
+    const callback = (event, arg)=>{
       console.log('frontend event', arg)
-      event.sender.send('backend-event', '[BackendReady]')
-    })
+      event.sender.send('backend-event', '[BackendReady]') }
+    ipcMain.on('frontend-event', callback)
+    IPC.unbindMain = () => ipcMain.off('frontend-event', callback)
   }
 
   if (ipcRenderer) {
-    ipcRenderer.on('backend-event', (event, arg)=>{
-      console.log('backend event', arg)
-    })
+    if (IPC.unbindRenderer) IPC.unbindRenderer()
+    const callback = (event, arg)=>{ console.log('backend event', arg) }
+    ipcRenderer.on('backend-event', callback)
     ipcRenderer.send('frontend-event', '[FrontendReady]')
+    IPC.unbindRenderer = () => ipcRenderer.off('backendevent', callback)
   }
 
   return current
