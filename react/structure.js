@@ -41,8 +41,8 @@ module.exports = state => {
   [...nodes].forEach(id=>{
     let data = { id }
     if (data.id.indexOf('node_modules')>-1) return
-    data.parent = addParent(data.id)
-    if(!data.parent)return
+    // data.parent = addParent(data.id)
+    // if(!data.parent)return
     let label = data.id.split('/')
     data.label = (label[label.length-1] === 'index.js')
       ? label[label.length-2] + '/'

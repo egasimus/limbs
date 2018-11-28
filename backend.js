@@ -15,14 +15,6 @@ module.exports = [
 
   Run('./electron', require),
 
-  Run(( current = {} )=>{
-    require('./electron/on-ready')(()=>{
-      // current.window.webContents.on('deps', ()=>{
-      //   console.log('requested deps')
-        const deps = require('./helpers/yaml')(['AddDeps', current.Deps])
-        current.window.webContents.send('main-event', deps)
-      // })
-    })
-    return current })
+  Run('./ws/api', require)
 
 ]

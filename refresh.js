@@ -5,7 +5,10 @@ module.exports = function Refresh (state = {}) {
   state.Refresh = state.Events.on('FileChanged', ([_, uri]) => {
 
     const location = state.Files.resolve(uri)
-    if (Object.keys(require.cache).indexOf(location) == -1) return
+    if (
+      Object.keys(require.cache).indexOf(location) === -1 &&
+      (require.failed && Object.keys(require.failed).indexOf(location) === -1)
+    ) return
 
     const refreshList = []
 

@@ -11,7 +11,8 @@ function hotReload (current) {
       require('./do')(require('./steps'))(current, ...require(__filename))
     } catch(e) {
       current.Events.emit('Error', e)
+      require.failed = require.failed || {}
+      require.failed[__filename] = e
       wait()
     } })
   wait() }
-
