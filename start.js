@@ -1,33 +1,25 @@
 console.log('Starting...')
 
-const Deps = require('./deps')
+const Deps       = require('./deps')
+    , Do         = require('./do')((...args) => require('./steps')(...args))
+    , Public     = require('./helpers/public')
+    , Common     = require('./common')
+    , Entrypoint = require({
+        'browser':  './backend.js',
+        'renderer': './frontend.js'
+      }[process.type])
 
-const Do = require('./do')((...args) => {
-  // console.log(args)
-  return require('./steps')(...args)
-})
+module.exports = [
+  Public({ Deps }),
+  Common,
+  Entrypoint,
+  state=>{
+    state.Events.emit('Initialized', state)
+    state.Events.once(['Refreshed', __filename], ()=>setImmediate(()=>{
+      Do(state, ...require(__filename))
+      console.log('pew pew')
+    }))
+  }
+]
 
-const Events  = require('./events')
-    , Files   = require('./files')
-    , Refresh = require('./refresh')
-    , IPC     = require('./electron/ipc')
-
-const readOnly = require('./helpers/readonly')
-    , addMethods = require('./helpers/methods')
-
-const Entrypoint = require({
-  'browser':  './backend.js',
-  'renderer': './frontend.js'
-}[process.type])
-
-module.exports = Do(
-  { Deps, readOnly, addMethods },
-  Events(),
-  Files({ cwd: __dirname }),
-  Refresh,
-  // IPC,
-  Entrypoint
-).then(state=>{
-  // Files.writeYAML(`data/${process.type}.deps.yml`, state.Deps)
-  state.Events.emit('Initialized', state)
-})
+if (require.main === module) Do(module.exports)

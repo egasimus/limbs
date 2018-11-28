@@ -11,7 +11,7 @@ module.exports = function Refresh (state = {}) {
 
     const add = location => {
       if (refreshList.indexOf(location) === -1) refreshList.push(location)
-      if (state.Deps[location]) [...state.Deps[location]].forEach(dep=>add(dep)) }
+      if (state.Deps[location]) [...state.Deps[location]].forEach(dep=>(dep!==location)&&add(dep)) }
 
     add(location)
 

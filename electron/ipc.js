@@ -7,15 +7,18 @@ module.exports = function ElectronIPC (current = {}) {
   const IPC = current.IPC = current.IPC || {}
 
   if (ipcMain) {
-    require('./patch')(ipcMain)
-    ipcMain.onAny((...args)=>console.log('ipcMain.onAny', args))
-    require('./on-ready')(()=>{
-      console.log('Electron ready') }) }
+    ipcMain.on('frontend-event', (event, arg)=>{
+      console.log('frontend event', arg)
+      event.sender.send('backend-event', '[BackendReady]')
+    })
+  }
 
-  // if (ipcRenderer) {
-    // require('./patch')(ipcRenderer)
-    // ipcRenderer.onAny((...args)=>console.log('ipcRenderer.onAny', args))
-  // }
+  if (ipcRenderer) {
+    ipcRenderer.on('backend-event', (event, arg)=>{
+      console.log('backend event', arg)
+    })
+    ipcRenderer.send('frontend-event', '[FrontendReady]')
+  }
 
   return current
 

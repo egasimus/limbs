@@ -9,6 +9,11 @@
 </head>
 <body style='width:100%;height:100%;overflow:hidden'>
   Loading...
-  <script>require('./start.js')</script>
+  <script>
+    require('./do')((...args) => {
+      // console.log(args)
+      return require('./steps')(...args)
+    })(require('./start.js'))
+  </script>
 </body>
 </html>
