@@ -101,8 +101,18 @@ module.exports = connect(
 
   return h
     ( 'div'
-    , { className: 'Structure', style: { height: '100%', width: '50%', background: '#777' } }
+    , { className: 'Structure'
+      , style:
+        { width: '100%'
+        , height: '33%'
+        , background: '#777'
+        , borderTop: '1px solid #aaa'
+        , borderLeft: '1px solid #aaa'
+        , borderBottom: '1px solid #555'
+        , borderRight: '1px solid #555'
+        , position: 'relative' } }
     // , { style: { ...abs(0,0,0,0), background:'linear-gradient(#47a,#a74)', width: '100%', height: '100%' } }
+    , h('div', { style: { ...abs(0, 'auto', 'auto', 0), background: 'darkred', padding: '0.5em' } }, props.id)
     , h(require('react-container-dimensions').default, null,
         ({ width, height }) =>
           h(CytoscapeComponent, { style: { width, height }, elements, layout, stylesheet }, null)))

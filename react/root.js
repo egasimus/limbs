@@ -7,11 +7,12 @@ module.exports = connect(
 )(props => h
   ( 'div'
   , { className: 'Root'
-    , style: { ...abs(0, 0, 0, 0), background: '#181818', color: '#eee', display: 'flex', flexFlow: 'row' } }
+    , style: { ...abs(0, 0, 0, 0), background: '#000', color: '#eee', display: 'flex', flexFlow: 'column' } }
   // , require('./depth')()
   // , require('./time')()
   , ...Object.keys(props.deps).map(id=>{
       console.log(id, props.deps[id])
       return h(require('./structure'), { id })
     })
+  , h(require('./prompt'))
   ))
