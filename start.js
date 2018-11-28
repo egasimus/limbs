@@ -1,25 +1,17 @@
 console.log('Starting...')
+require('./deps')
+const Entrypoint = { 'browser': './backend.js', 'renderer': './frontend.js' }[process.type]
+module.exports = [ require('./common'), require(Entrypoint), hotReload ]
+if (require.main === module) require('./do')(require('./steps'))(module.exports)
+function hotReload (current) {
+  current.Events.emit('Initialized', current)
+  const wait = () => current.Events.once(['Refreshed', __filename], reload)
+  const reload = () => setImmediate(() => {
+    try {
+      require('./do')(require('./steps'))(current, ...require(__filename))
+    } catch(e) {
+      current.Events.emit('Error', e)
+      wait()
+    } })
+  wait() }
 
-const Deps       = require('./deps')
-    , Do         = require('./do')((...args) => require('./steps')(...args))
-    , Public     = require('./helpers/public')
-    , Common     = require('./common')
-    , Entrypoint = require({
-        'browser':  './backend.js',
-        'renderer': './frontend.js'
-      }[process.type])
-
-module.exports = [
-  Public({ Deps }),
-  Common,
-  Entrypoint,
-  state=>{
-    state.Events.emit('Initialized', state)
-    state.Events.once(['Refreshed', __filename], ()=>setImmediate(()=>{
-      Do(state, ...require(__filename))
-      console.log('pew pew')
-    }))
-  }
-]
-
-if (require.main === module) Do(module.exports)

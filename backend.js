@@ -4,6 +4,8 @@ const Audit   = require('./events/audit')
 
 module.exports = [
 
+  Files({ cwd: __dirname }),
+
   Audit((current, event)=>{
     // console.log(event)
     if (event[0] === 'Error') console.log(event[1])
