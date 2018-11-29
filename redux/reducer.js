@@ -1,4 +1,14 @@
-module.exports = (state = { deps: {} }, { type, args }) => {
+module.exports = (state = {
+
+  cwd: process.cwd(),
+  command: '',
+  outputs: [],
+  items: {},
+  focused: '',
+
+  deps: {}
+
+}, { type, args }) => {
 
   console.log('reducer', type, args)
 

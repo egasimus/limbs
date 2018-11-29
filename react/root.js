@@ -10,9 +10,6 @@ module.exports = connect(
     , style: { ...abs(0, 0, 0, 0), background: '#000', color: '#eee', display: 'flex', flexFlow: 'column' } }
   // , require('./depth')()
   // , require('./time')()
-  , ...Object.keys(props.deps).map(id=>{
-      console.log(id, props.deps[id])
-      return h(require('./structure'), { id })
-    })
+  , ...Object.keys(props.deps).map(id=>h(require('./structure'), { id }))
   , h(require('./prompt'))
   ))
