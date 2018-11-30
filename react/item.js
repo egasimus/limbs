@@ -33,7 +33,7 @@ module.exports = connect(
           , cursor: 'pointer'
           , userSelect: 'none' }
         , onClick: event =>
-          dispatch({ type: expanded ? 'ItemCollapse' : 'ItemExpand', args: { id: item.id } })
+            dispatch({ type: expanded ? 'ItemCollapse' : 'ItemExpand', args: { id: item.id } })
         }
       , expanded ? '▼ ': '▶ '
       , item.id )
