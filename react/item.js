@@ -9,7 +9,7 @@ module.exports = connect(
     { item: state.items[ownProps.id]
     , expanded: state.expanded.indexOf(ownProps.id) > -1 })
 
-)(function Item ({ item, expanded }) {
+)(function Item ({ item, expanded, dispatch }) {
 
   console.log(item, expanded)
   
@@ -29,7 +29,13 @@ module.exports = connect(
           , background: 'rgba(0,128,0,0.5)'
           , fontWeight: 'bold'
           , padding: '0.5em'
-          , zIndex: 1 } }
+          , zIndex: 1
+          , cursor: 'pointer'
+          , userSelect: 'none' }
+        , onClick: event =>
+          dispatch({ type: expanded ? 'ItemCollapse' : 'ItemExpand', args: { id: item.id } })
+        }
+      , expanded ? '▼ ': '▶ '
       , item.id )
     , h
       ( 'div'
