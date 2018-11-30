@@ -1,27 +1,21 @@
 const { createElement: h } = require('react')
     , { connect } = require('react-redux')
-    , { abs } = require('./style')
+    , { abs } = require('../style')
     , Cytoscape = require('cytoscape')
     , Cola = require('cytoscape-cola')
     , CytoscapeComponent = require('react-cytoscapejs')
 
 Cytoscape.use(Cola)
 
-module.exports = connect(
+module.exports = function CytoscapeViewer ({ item }) {
 
-  (state, ownProps)=>({
-    Deps: state.deps[ownProps.id] || {}
-  })
-
-)(props => {
-
-  console.log('structure', props)
+  console.log('structure', item)
 
   const nodes = new Set(), edges = [], elements = [], parents = []
 
-  Object.keys(props.Deps).forEach(target=>{
+  Object.keys(item.data).forEach(target=>{
     nodes.add(target)
-    for (let source of props.Deps[target]) {
+    for (let source of item.data[target]) {
       nodes.add(source)
       edges.push({ source, target }) } })
 
@@ -104,7 +98,7 @@ module.exports = connect(
     , { className: 'Structure'
       , style:
         { width: '100%'
-        , height: '33%'
+        , height: '100%'
         , background: '#777'
         , borderTop: '1px solid #aaa'
         , borderLeft: '1px solid #aaa'
@@ -112,9 +106,8 @@ module.exports = connect(
         , borderRight: '1px solid #555'
         , position: 'relative' } }
     // , { style: { ...abs(0,0,0,0), background:'linear-gradient(#47a,#a74)', width: '100%', height: '100%' } }
-    , h('div', { style: { ...abs(0, 'auto', 'auto', 0), background: 'darkred', padding: '0.5em' } }, props.id)
     , h(require('react-container-dimensions').default, null,
         ({ width, height }) =>
           h(CytoscapeComponent, { style: { width, height }, elements, layout, stylesheet }, null)))
 
-})
+}

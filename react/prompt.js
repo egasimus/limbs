@@ -1,25 +1,28 @@
 const { createElement: h } = require('react')
+    , { connect } = require('react-redux')
     , { abs } = require('./style')
 
-module.exports = props =>
-  h
+module.exports = connect(
+
+  (state, ownProps) => ({
+    cwd: state.cwd,
+    command: state.command
+  })
+
+)(props => h
   ( 'div'
   , { className: 'Prompt'
     , style: { display: 'flex', ...abs('auto', 0, 0, 0), lineHeight: '1em', background: '#181818', color: '#eee' } }
   , h
     ( 'div'
     , { style: { background: 'darkred', padding: '0.5em', fontWeight: 'bold' } }
-    , '~/foo/bar')
+    , props.cwd)
   , h
-    ( 'div'
-    , { style: { padding: '0.5em' } }
-    , 'the quick brown fox jumps over the lazy dog')
-  , h
-    ( 'div'
-    , { style: { flexGrow: 1, padding: '0.5em' } }
+    ( 'input'
+    , { style: { flexGrow: 1, background: 'none', border: 'none', color: '#fff', padding: '0 0.5em' } }
     , null)
   , h
     ( 'div'
     , { style: { background: 'darkblue', padding: '0.5em', fontWeight: 'bold' } }
     , new Date().toISOString() )
-  )
+  ))

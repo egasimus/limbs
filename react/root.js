@@ -3,13 +3,17 @@ const { createElement: h } = require('react')
     , { abs } = require('./style')
 
 module.exports = connect(
-  state=>({ deps: state.deps || {} })
-)(props => h
-  ( 'div'
-  , { className: 'Root'
-    , style: { ...abs(0, 0, 0, 0), background: '#000', color: '#eee', display: 'flex', flexFlow: 'column' } }
-  // , require('./depth')()
-  // , require('./time')()
-  , ...Object.keys(props.deps).map(id=>h(require('./structure'), { id }))
-  , h(require('./prompt'))
-  ))
+
+  state=>({ order: state.order })
+
+)(function RootWindow ({ order }) {
+
+  return h
+    ( 'section'
+    , { className: 'Shell'
+      , style: { ...abs(0, 0, 0, 0), background: '#000', color: '#eee', display: 'flex', flexFlow: 'column' } }
+    , ...order.map(id=>h(require('./item'), { id }))
+    , h(require('./prompt'))
+    )
+
+})

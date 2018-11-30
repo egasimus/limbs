@@ -16,10 +16,22 @@ module.exports = [
   require('./run/run')(current=>{
     current.WSIPC.client.subscribe(message=>{
       if (message[0] === 'ServerDeps') current.Redux.store.dispatch(
-        { type: 'AddDeps'
-        , args: { name: 'backend', tree: message[1] } }) })
+        { type: 'ItemAdd'
+        , args:
+          { id:   'deps_backend'
+          , time:  new Date()
+          , data:  message[1]
+          , expandedView: 'cytoscape'
+          , collapsedView: 'count_keys'
+          } }) })
     current.Redux.store.dispatch(
-      { type: 'AddDeps'
-      , args: { name: 'frontend', tree: current.Deps } }) }),
+      { type: 'ItemAdd'
+      , args:
+        { id:   'deps_frontend'
+        , time:  new Date()
+        , data:  current.Deps
+        , expandedView: 'cytoscape'
+        , collapsedView: 'count_keys'
+        } }) }),
 
 ]

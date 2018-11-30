@@ -1,5 +1,4 @@
 module.exports = entrypoint => function hotReload (current) {
-  current.Events.emit('Initialized', current)
   const wait = () => current.Events.once(['Refreshed', entrypoint], reload)
   const reload = () => setImmediate(() => {
     try {
