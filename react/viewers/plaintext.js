@@ -10,7 +10,7 @@ module.exports = connect(
     return { topic, data }
   }
 
-)(function CountKeysViewer ({ topic, data }) {
+)(function PlainTextViewer ({ topic, data }) {
 
   return h
     ( 'span'
@@ -18,7 +18,7 @@ module.exports = connect(
     , h
       ( 'strong'
       , null
-      , String(Object.keys(data||{}).length)
-    , ' entries' ))
+      , String(data)))
 
 })
+

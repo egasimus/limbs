@@ -26,15 +26,13 @@ module.exports = [
 
     current.WSIPC.client.subscribe(message=>{
       if (message[0] !== 'ServerDeps') return
-      require('./redux/dispatch')(current, 'deps_backend', message[1]) })
+      require('./redux/dispatch')(current, 'deps_backend', message[1])
+      current.Redux.store.dispatch(require('./redux/actions').Window(
+        require('shortid').generate(), 'deps_backend', 'count_keys')) })
 
     require('./redux/dispatch')(current, 'deps_frontend', current.Deps)
-
     current.Redux.store.dispatch(require('./redux/actions').Window(
-      require('shortid').generate(), 'deps_backend', 'count_keys'))
-
-    current.Redux.store.dispatch(require('./redux/actions').Window(
-      require('shortid').generate(), 'deps_frontend', 'count_keys'))
+      require('shortid').generate(), 'deps_frontend', 'plaintext'))
 
     window.current = current
   

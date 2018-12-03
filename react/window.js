@@ -11,10 +11,17 @@ module.exports = connect(
   return h
     ( 'section'
     , { className: 'Window'
-      , style: { ...abs(0, 0, 0, 0), background: '#000', color: '#eee', display: 'flex', flexFlow: 'column' } }
-    , h
-      ( require('./viewers')[viewer]
-      , { topic } )
-    )
+      , style: { width: '100%'
+               , background: '#080808'
+               , color: '#eee'
+               , display: 'flex'
+               , flexFlow: 'row'
+               , position: 'relative'
+               , alignItems: 'flex-start'
+               , marginBottom: '1px'
+               , lineHeight: 1 } }
+    , h(require('./decoration'), { id })
+    , h('div', { style: { flexGrow: 1 } }
+       , h(require('./viewers')[viewer], { topic }) ) )
 
 })

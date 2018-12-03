@@ -15,14 +15,14 @@ module.exports = connect(
     , style: { display: 'flex', ...abs('auto', 0, 0, 0), lineHeight: '1em', background: '#181818', color: '#eee' } }
   , h
     ( 'div'
-    , { style: { background: 'darkred', padding: '0.5em', fontWeight: 'bold' } }
+    , { style: { background: 'none', color: 'blue', padding: '0.5em', fontWeight: 'bold' } }
+    , new Date().toISOString() )
+  , h
+    ( 'div'
+    , { style: { background: 'none', color: 'tomato', padding: '0.5em', fontWeight: 'bold' } }
     , props.cwd)
   , h
     ( 'input'
     , { style: { flexGrow: 1, background: 'none', border: 'none', color: '#fff', padding: '0 0.5em' } }
     , null)
-  , h
-    ( 'div'
-    , { style: { background: 'darkblue', padding: '0.5em', fontWeight: 'bold' } }
-    , new Date().toISOString() )
   ))
