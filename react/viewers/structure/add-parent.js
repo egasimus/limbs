@@ -1,9 +1,14 @@
-module.exports = (state, id) => {
+module.exports = function addParent (state, id) {
+
   const parent = id.split('/').slice(0,-1).join('/')
+
   if (parent === '') return
-  if (parents.indexOf(parent)===-1) {
-    parents.push(parent)
-    elements.push(
+
+  if (!state.parents.has(parent)) {
+
+    state.parents.add(parent)
+
+    state.elements.push(
       { group: 'nodes'
       , style: { 'text-valign': 'top'
                , 'text-halign': 'center'
@@ -16,6 +21,8 @@ module.exports = (state, id) => {
       , data:
         { id:     parent
         , label:  parent.split('/').slice(-1)
-        , parent: addParent(parent) }}) }
+        , parent: addParent(state, parent) }}) }
+
   return parent
+
 }

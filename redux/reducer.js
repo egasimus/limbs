@@ -1,42 +1,36 @@
 module.exports = (state = {
 
+  x: 0,
+  y: 0,
+  w: window.innerWidth,
+  h: window.innerHeight,
+
+  windows: [],
+  topics:  {},
+  data:    {},
+
   cwd: process.cwd(),
   command: '',
 
-  items: {},
-  order: [],
-  expanded: [],
-  currentFocus: null,
+}, action) => {
 
-  deps: {}
+  const type = action.type
+  delete action.type
 
-}, { type, args }) => {
+  console.warn('Reduce', type, action)
 
-  console.log('reducer', type, args)
+  if (type === 'Datum')
+    state = { ...state, data: { ...state.data, [action.id]: action } }
 
-  if (type === 'ItemAdd') {
-    return {
-      ...state,
-      items: { ...state.items, [args.id]: args },
-      order: [ ...state.order, args.id ],
-      expanded: [ ...state.expanded, args.id ]
-    }
+  if (type === 'Topic')
+    state = { ...state, topics: { ...state.topics, [action.id]: action.data } }
+
+  if (type === 'Window') {
+    state = { ...state, windows: { ...state.windows, [action.id]: action } }
   }
 
-  if (type === 'ItemExpand') {
-    return {
-      ...state,
-      expanded: [ ...state.expanded.filter(id=>id!==args.id), args.id ]
-    }
-  }
+  console.debug(state)
 
-  if (type === 'ItemCollapse') {
-    return {
-      ...state,
-      expanded: [ ...state.expanded.filter(id=>id!==args.id) ]
-    }
-  }
-
-  return { ...state }
+  return state
 
 }

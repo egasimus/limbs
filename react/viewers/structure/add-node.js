@@ -1,11 +1,16 @@
-module.exports = ({ elements }, id) => {
+module.exports = (state, id) => {
 
-  let node = { id }
+  const { elements, addDependencies, addDirectories } = state
+      , node = { id }
 
-  if (id.indexOf('node_modules')>-1) return
+  if (!addDependencies) {
+    if (id.indexOf('node_modules')>-1) return
+  }
 
-  // node.parent = addParent(id)
-  // if(!node.parent)return
+  if (addDirectories) {
+    node.parent = require('./add-parent')(state, id)
+    if (!node.parent) return
+  }
 
   let label = id.split('/')
 

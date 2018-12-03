@@ -10,7 +10,7 @@ module.exports = (state = {}) => {
   state.React.vdom = h(
     require('react-redux').Provider,
     { store: state.Redux.store },
-    h(require('./root')))
+    h(require('./workspace')))
 
   state.React.rendered = require('react-dom').render(
     state.React.vdom,

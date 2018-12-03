@@ -3,8 +3,10 @@ module.exports = (data) => {
   const state =
     { nodes:    new Set()
     , edges:    []
-    , parents:  []
-    , elements: [] }
+    , parents:  new Set()
+    , elements: []
+    , addDirectories:  true
+    , addDependencies: false }
   
   Object.keys(data).forEach(target=>{
     state.nodes.add(target)

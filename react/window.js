@@ -4,16 +4,22 @@ const { createElement: h } = require('react')
 
 module.exports = connect(
 
-  state=>({ order: state.order })
+  (state, { id })=>({ ...state.windows[id] })
 
-)(function RootWindow ({ order }) {
+)(function Window (...args) {
+
+  console.log(args)
+  debugger
+  const { id, topic, viewer, coordinates } = w
+  console.log(w, id, topic, viewer, coordinates)
 
   return h
     ( 'section'
-    , { className: 'Shell'
+    , { className: 'Window'
       , style: { ...abs(0, 0, 0, 0), background: '#000', color: '#eee', display: 'flex', flexFlow: 'column' } }
-    , ...order.map(id=>h(require('./item'), { id }))
-    , h(require('./prompt'))
+    , h
+      ( require('./viewers')[viewer]
+      , { topic } )
     )
 
 })
