@@ -4,14 +4,9 @@ const { createElement: h } = require('react')
 
 module.exports = connect(
 
-  (state, { id })=>({ ...state.windows[id] })
+  (state, ownProps) => state.windows[ownProps.id]
 
-)(function Window (...args) {
-
-  console.log(args)
-  debugger
-  const { id, topic, viewer, coordinates } = w
-  console.log(w, id, topic, viewer, coordinates)
+)(function Window ({ id, topic, viewer, dimensions }) {
 
   return h
     ( 'section'

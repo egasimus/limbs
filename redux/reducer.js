@@ -17,7 +17,7 @@ module.exports = (state = {
   const type = action.type
   delete action.type
 
-  console.warn('Reduce', type, action)
+  console.debug('Reduce', type, action)
 
   if (type === 'Datum')
     state = { ...state, data: { ...state.data, [action.id]: action } }

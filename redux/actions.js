@@ -8,8 +8,8 @@ module.exports = {
     return { type: 'Topic', id, data }
   },
 
-  Window (id, topic, viewer, coordinates) {
-    return { type: 'Window', id, topic, viewer, coordinates }
+  Window (id, topic, viewer, dimensions) {
+    return { type: 'Window', id, topic, viewer, dimensions }
   },
 
 }

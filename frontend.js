@@ -1,5 +1,7 @@
 module.exports = [
 
+  current => { window.current = current },
+
   require('./events/audit')((current, event)=>{
 
     if (event[0] === 'Error') {

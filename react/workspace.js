@@ -4,7 +4,7 @@ const { createElement: h } = require('react')
 
 module.exports = connect(
 
-  state=>({ windows: state.windows })
+  state=>({ windows: Object.keys(state.windows) })
 
 )(function Workspace ({ windows }) {
 
@@ -16,7 +16,7 @@ module.exports = connect(
                , color: '#eee'
                , display: 'flex'
                , flexFlow: 'column' } }
-    , ...Object.values(windows).map(id=>h(require('./window'), { id }))
+    , ...windows.map(id=>h(require('./window'), { id }))
     , h(require('./prompt'))
     )
 

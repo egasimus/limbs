@@ -1,7 +1,11 @@
 const { createElement: h } = require('react')
     , { connect } = require('react-redux')
 
-module.exports = function CountKeysViewer ({ item }) {
+module.exports = connect(
+
+  (state, ownProps)=>({ data: state.topics[ownProps.topic] })
+
+)(function CountKeysViewer ({ topic, data }) {
 
   return h
     ( 'span'
@@ -9,7 +13,7 @@ module.exports = function CountKeysViewer ({ item }) {
     , h
       ( 'strong'
       , null
-      , String(Object.keys(item.data).length) )
-    , ' entries' )
+      , String(Object.keys(data||{}).length)
+    , ' entries' ))
 
-}
+})
