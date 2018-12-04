@@ -5,19 +5,24 @@ module.exports = connect(
 
   (state, ownProps)=>{
     const topic = state.topics[ownProps.topic] || []
-    const data = state.data[topic[0]]
+    const data = topic.map(id=>state.data[id])
     return { topic, data }
   }
 
 )(function PlainTextViewer ({ topic, data }) {
 
+  console.log(123, data)
+
   return h
     ( 'span'
     , null
-    , h
-      ( 'strong'
+    , ...data.map(datum =>
+      h
+      ( 'div'
       , null
-      , String((data||{}).datum)))
+      , h('strong', null, datum.t.toISOString())
+      , JSON.stringify(datum.datum) )))
 
 })
+
 

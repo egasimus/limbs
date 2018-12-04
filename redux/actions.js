@@ -12,4 +12,8 @@ module.exports = {
     return { type: 'Window', id, topic, viewer, dimensions }
   },
 
+  Command (command) {
+    return { type: 'Command', command }
+  }
+
 }

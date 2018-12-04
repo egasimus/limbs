@@ -4,6 +4,8 @@ module.exports = function Refresh (state = {}) {
 
   state.Refresh = state.Events.on('FileChanged', ([_, uri]) => {
 
+    return
+
     const location = state.Files.resolve(uri)
     if (
       Object.keys(require.cache).indexOf(location) === -1 &&

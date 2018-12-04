@@ -1,7 +1,8 @@
 module.exports = current => {
 
-  current.WSIPC.onConnection = ws =>
+  current.WSIPC.onConnection = ws => {
     ws.on('message', message => current.WSIPC.onMessage(ws, message))
+    current.WSIPC.broadcast = data => ws.send(require('../helpers/yaml')(data)) }
 
   if (current.WSIPC.httpServer) current.WSIPC.httpServer.close()
   current.WSIPC.httpServer = require('http').createServer()

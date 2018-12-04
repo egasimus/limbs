@@ -9,21 +9,21 @@ module.exports = connect(
     command: state.command
   })
 
-)(props => h
+)(({ cwd }) => h
   ( 'div'
   , { className: 'Prompt'
     , style: { display: 'flex', ...abs('auto', 0, 0, 0), lineHeight: '1em', background: '#181818', color: '#eee' } }
   , h
     ( 'div'
-    , { style: { background: 'none', color: 'blue', padding: '0.5em', fontWeight: 'bold' } }
+    , { style: { background: 'none', color: '#ffc200', padding: '0.5em', fontWeight: 'bold' } }
     , new Date().toISOString() )
   , h
     ( 'div'
-    , { style: { background: 'none', color: 'tomato', padding: '0.5em', fontWeight: 'bold' } }
-    , props.cwd)
+    , { style: { background: 'none', color: '#ffc200', padding: '0.5em', fontWeight: 'bold' } }
+    , cwd)
   , h
     ( 'input'
-    , { style: { flexGrow: 1, background: 'none', border: 'none', color: '#fff', padding: '0 0.5em' }
+    , { style: { flexGrow: 1, background: 'none', border: 'none', color: '#fff', padding: '0 0.5em', outline: 'none' }
       , onKeyUp: event => {
           if (event.key === 'Enter') {
             console.log(event.target.value)

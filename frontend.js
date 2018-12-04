@@ -2,6 +2,8 @@ module.exports =
 
 [ current => { window.current = current }
 
+, current => { current.WSIPC.onMessage = event => current.Events.emit(...event) }
+
 , require('./events/audit')((current, event)=>{
 
     if (event[0] === 'Error') {
@@ -29,14 +31,16 @@ module.exports =
 
     const injected = inject(require, './redux/append', './redux/actions')
 
+    injected(({ Redux }, append, { Window }) => {
+      // Redux.store.dispatch(Window(generate(), 'system', 'count_keys'))
+
+      append(current, 'deps_frontend', current.Deps)
+      Redux.store.dispatch(Window(generate(), 'deps_frontend', 'cytoscape')) })
+
     current.WSIPC.client.subscribe(message=>{
       if (message[0] !== 'ServerDeps') return
       injected(({ Redux }, append, { Window }) => {
         append(current, 'deps_backend', message[1])
-        Redux.store.dispatch(Window(generate(), 'deps_backend', 'cytoscape')) }) })
-
-    injected(({ Redux }, append, { Window }) => {
-      append(current, 'deps_frontend', current.Deps)
-      Redux.store.dispatch(Window(generate(), 'deps_frontend', 'cytoscape')) }) }
+        Redux.store.dispatch(Window(generate(), 'deps_backend', 'cytoscape')) }) }) }
 
 ]
