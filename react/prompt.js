@@ -23,6 +23,12 @@ module.exports = connect(
     , props.cwd)
   , h
     ( 'input'
-    , { style: { flexGrow: 1, background: 'none', border: 'none', color: '#fff', padding: '0 0.5em' } }
+    , { style: { flexGrow: 1, background: 'none', border: 'none', color: '#fff', padding: '0 0.5em' }
+      , onKeyUp: event => {
+          if (event.key === 'Enter') {
+            console.log(event.target.value)
+            event.target.value = ''
+          }
+        } }
     , null)
   ))

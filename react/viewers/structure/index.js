@@ -7,19 +7,23 @@ const { createElement: h } = require('react')
 
 Cytoscape.use(Cola)
 
-module.exports = function CytoscapeViewer ({ item }) {
+module.exports = connect(
+
+  (state, ownProps)=>{
+    const topic = state.topics[ownProps.topic]
+    const data = state.data[topic[0]]
+    return { topic, data }
+  }
+
+)(function CytoscapeViewer ({ topic, data }) {
 
   return h
     ( 'div'
     , { className: 'Structure'
       , style:
-        { width: '100%'
-        , height: '100%'
-        , background: '#777'
-        , borderTop: '1px solid #aaa'
-        , borderLeft: '1px solid #aaa'
-        , borderBottom: '1px solid #555'
-        , borderRight: '1px solid #555'
+        { width: '320px'
+        , height: '200px'
+        , background: '#222'
         , position: 'relative' } }
     // , { style: { ...abs(0,0,0,0), background:'linear-gradient(#47a,#a74)', width: '100%', height: '100%' } }
     , h
@@ -29,8 +33,8 @@ module.exports = function CytoscapeViewer ({ item }) {
         h
         ( CytoscapeComponent
         , { style: { width, height }
-          , elements: require('./build')(item.data)
+          , elements: require('./build')(data.datum)
           , layout: require('./layout')
           , stylesheet: require('./stylesheet')
           }
-        , null))) }
+        , null))) })

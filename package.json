@@ -23,6 +23,7 @@
     "js-yaml": "^3.12.0",
     "mkdirp": "^0.5.1",
     "path-list-to-tree": "^1.1.1",
+    "re-resizable": "^4.10.0",
     "react": "^16.6.3",
     "react-container-dimensions": "^1.4.1",
     "react-cytoscapejs": "^1.1.0",

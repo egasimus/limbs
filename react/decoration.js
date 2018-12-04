@@ -19,11 +19,12 @@ module.exports = connect(
         , overflow:  'hidden'
         , position:  'relative'
         , display:   'flex'
+        , background: '#222'
         , zIndex:     1 } }
-    , h('div', { style: { color: 'green', padding: '0 0.25em', cursor: 'pointer' } }, '📌 ')
-    , h('div', { style: { color: 'green', padding: '0 0.25em', cursor: 'pointer' } }, expanded ? '▼ ': '▶ ')
-    , h('div', { style: { color: 'green', fontWeight: 'bold', padding: '0 0.25em', cursor: 'pointer' } }, new Date().toISOString())
-    , h('div', { style: { color: 'green', fontWeight: 'bold', padding: '0 0.75em 0 0.25em', cursor: 'pointer' } }, id)
+    , h('div', { style: { color: 'green', padding: '1em 0.5em', cursor: 'pointer' } }, '📌')
+    , h('div', { style: { color: 'green', padding: '1em 0.5em', cursor: 'pointer' } }, '☰')
+    , h('div', { style: { color: 'green', padding: '1em 0.5em', cursor: 'pointer' } }, new Date().toISOString())
+    , h('div', { style: { color: 'green', fontWeight: 'bold', padding: '1em 0.5em', cursor: 'pointer' } }, topic)
     )
 
 })
