@@ -8,15 +8,15 @@ module.exports =
       , 'background-color': '#000'
       , 'background-opacity': 1
       , 'shape':            'rectangle'
-      , 'color':            '#fff' } }
+      , 'color':            '#ffc200' } }
   , { selector: 'edge'
     , style:
       { 'width': 1
-      , 'line-color':         '#000'
+      , 'line-color':         '#ffc200'
       , 'curve-style':        'haystack'
       , 'arrow-scale': 2
       , 'mid-target-arrow-shape': 'triangle'
       , 'mid-target-arrow-fill':  'filled'
-      , 'mid-target-arrow-color': '#000'
+      , 'mid-target-arrow-color': '#ffc200'
       , 'source-endpoint':    'outside-to-node'
       , 'target-endpoint':    'outside-to-node' } } ]

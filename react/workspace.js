@@ -12,11 +12,10 @@ module.exports = connect(
     h
     ( 'table'
     , { className: 'Workspace'
-      , style: { ...abs(0, 0, 0, 0)
-               , background: '#000'
+      , style: { background: '#000'
                , color: '#eee'
-               , display: 'flex'
-               , flexFlow: 'column'
+               , width: '100%'
+               , minHeight: '100%'
                , borderCollapse: 'collapse' } }
     , h
       ( 'tbody'

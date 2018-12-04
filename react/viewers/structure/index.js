@@ -21,9 +21,8 @@ module.exports = connect(
     ( 'div'
     , { className: 'Structure'
       , style:
-        { width: '320px'
-        , height: '200px'
-        , background: '#222'
+        { width: '100%'
+        , height: '500px'
         , position: 'relative' } }
     // , { style: { ...abs(0,0,0,0), background:'linear-gradient(#47a,#a74)', width: '100%', height: '100%' } }
     , h

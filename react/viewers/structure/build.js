@@ -5,7 +5,7 @@ module.exports = (data) => {
     , edges:    []
     , parents:  new Set()
     , elements: []
-    , addDirectories:  true
+    , addDirectories:  false
     , addDependencies: false }
   
   Object.keys(data).forEach(target=>{
