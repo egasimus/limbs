@@ -7,8 +7,6 @@ module.exports = [
 
   require('./events')(),
 
-  require('./run/refresh'),
-
   require('./ws')
 
 ]
