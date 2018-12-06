@@ -1,15 +1,12 @@
 console.log('Starting...')
 
-require('./run/deps')
-
-const Entrypoint =
-  { 'browser':  './backend.js'
-  , 'renderer': './frontend.js'
-  }[process.type]
+require('./run/deps') // initialize dependency tracker
 
 module.exports =
-  [ require('./common')
-  , require(Entrypoint)
-  , require('./run/hot')(__filename) ]
+  [ './common'
+  , { 'browser':  './backend.js'
+    , 'renderer': './frontend.js'
+    }[process.type] ]
+  // , require('./run/hot')(__filename) ]
 
-if (require.main === module) require('./do')(require('./steps'))(module.exports)
+if (require.main === module) require('./do')(require('./steps'))(...module.exports)

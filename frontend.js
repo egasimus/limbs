@@ -13,14 +13,16 @@ module.exports =
     }
 
     if (current.Redux && current.Redux.store) {
-      require('./redux/append')(current, 'system', event)
+      require('./workspace/reducer/append')(current, 'system', event)
     }
 
   })
 
-, require('./run/rerun')('./redux', require)
+, './workspace'
 
-, require('./run/rerun')('./react', require)
+, './redux'
+
+, './react'
 
 , current => {
 
@@ -29,7 +31,7 @@ module.exports =
     const inject = (require, ...specs) =>
       cb => cb(current, ...specs.map(require))
 
-    const injected = inject(require, './redux/append', './redux/actions')
+    const injected = inject(require, './workspace/reducer/append', './workspace/reducer/actions')
 
     injected(({ Redux }, append, { Window }) => {
       // Redux.store.dispatch(Window(generate(), 'system', 'count_keys'))

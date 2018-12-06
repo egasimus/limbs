@@ -6,7 +6,7 @@ module.exports = connect(
 
   state=>state
 
-)(function Workspace ({ windows, topics, data }) {
+)(function Workspace ({ current, windows, topics, data, cwd }) {
 
   return [
     h
@@ -52,7 +52,7 @@ module.exports = connect(
             , { topic: windows[id].topic }) ) ) ) ) )
          // , h(require('./viewers')[viewer], { topic }) ) ) 
 
-    , h(require('./prompt'))
+    , h(require('./prompt'), { cwd, current })
 
     ]
 
