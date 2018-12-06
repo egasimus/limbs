@@ -1,6 +1,6 @@
 const { createElement: h } = require('react')
     , { connect } = require('react-redux')
-    , { abs } = require('./style')
+    , { abs } = require('../helpers/style')
 
 module.exports = connect(
 
@@ -48,7 +48,7 @@ module.exports = connect(
           ( 'td'
           , { width: '*' }
           , h
-            ( require('./viewers')[windows[id].viewer]
+            ( require('../viewers')[windows[id].viewer]
             , { topic: windows[id].topic }) ) ) ) ) )
          // , h(require('./viewers')[viewer], { topic }) ) ) 
 

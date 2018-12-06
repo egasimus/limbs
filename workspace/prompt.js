@@ -1,5 +1,5 @@
 const { createElement: h } = require('react')
-    , { abs } = require('./style')
+    , { abs } = require('../helpers/style')
 
 module.exports = ({ cwd, current }) => h
 ( 'div'

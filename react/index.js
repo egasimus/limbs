@@ -1,6 +1,6 @@
 module.exports = (current = {}) => {
   current.React =
-    { root:   document.body.firstChild
+    { root:   document.body.firstElementChild
     , vdom:  'Hello React'
     , render: require('react-dom').render
     , ...(current.React || {}) }

@@ -4,4 +4,4 @@ module.exports = current => {
   current.React = { get vdom () { return h
     (require('react-redux').Provider
     , { get store () { return current.Redux.store } }
-    , h(require('./workspace'), { current }) } } }
+    , h(require('./root'), { current })) } } }

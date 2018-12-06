@@ -1,6 +1,6 @@
 const { createElement: h } = require('react')
     , { connect } = require('react-redux')
-    , { abs } = require('../../style')
+    , { abs } = require('../../helpers/style')
     , Cytoscape = require('cytoscape')
     , Cola = require('cytoscape-cola')
     , CytoscapeComponent = require('react-cytoscapejs')
