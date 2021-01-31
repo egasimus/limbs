@@ -16,7 +16,7 @@
     "cytoscape-cola": "^2.3.0",
     "d3": "^5.7.0",
     "dothot": "^0.2.1",
-    "electron": "^3.0.7",
+    "electron": "^11.0.0",
     "globule": "^1.2.1",
     "graph-data-structure": "^1.8.0",
     "is-builtin-module": "^3.0.0",
